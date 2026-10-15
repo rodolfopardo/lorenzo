@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Métrica · Tablero de Control Automotor · Grupo Lorenzo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+@page{size:A4;margin:0}
+:root{--mb:#1c73b8;--mb-dark:#0f4f86;--mb-soft:#e8f1fa;--ink:#0f1b2d;--tx:#1b2638;--tx2:#55627a;--tx3:#8a95a8;--bd:#e3e7ee}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;color:var(--tx);font-size:10.5pt;line-height:1.55;-webkit-print-color-adjust:exact;print-color-adjust:exact;background:#fff}
+.page{width:210mm;height:297mm;padding:18mm 18mm 16mm;position:relative;page-break-after:always;overflow:hidden}
+.page:last-child{page-break-after:auto}
+.pf{position:absolute;bottom:9mm;left:18mm;right:18mm;display:flex;justify-content:space-between;align-items:center;font-size:8pt;color:var(--tx3);border-top:1px solid var(--bd);padding-top:3mm}
+.pf img{height:11px;opacity:.8}
+.kick{font-size:8.5pt;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--mb);margin-bottom:3mm}
+h1{font-size:30pt;line-height:1.1;font-weight:800;color:var(--ink);letter-spacing:-.5px}
+h2{font-size:19pt;font-weight:800;color:var(--ink);line-height:1.2;margin-bottom:4mm;letter-spacing:-.3px}
+h3{font-size:11pt;font-weight:700;color:var(--ink);margin-bottom:1.5mm}
+p{margin-bottom:3mm}
+.lead{font-size:11.5pt;color:var(--tx2);margin-bottom:6mm}
+/* cover */
+.cover{background:linear-gradient(160deg,#fff 0%,#f2f7fc 55%,#dcebf8 100%);display:flex;flex-direction:column}
+.cover:before{content:'';position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(90deg,var(--mb-dark),var(--mb),#4f9bd6)}
+.cover .logo{height:40px;margin-bottom:auto;align-self:flex-start}
+.cover .mid{margin:auto 0}
+.cover .for{display:inline-block;background:var(--ink);color:#fff;font-size:9pt;font-weight:700;letter-spacing:1px;padding:2mm 4mm;border-radius:4px;margin-bottom:6mm}
+.cover .sub{font-size:13pt;color:var(--tx2);margin-top:5mm;max-width:150mm}
+.cover .meta{font-size:9pt;color:var(--tx3);margin-top:auto}
+.cover .shot{margin-top:10mm;border-radius:6px;box-shadow:0 10px 40px rgba(15,27,45,.18);border:1px solid var(--bd);width:100%;height:78mm;object-fit:cover;object-position:top}
+/* blocks */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:6mm}
+.cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:5mm}
+.box{border:1px solid var(--bd);border-radius:8px;padding:5mm}
+.box.soft{background:var(--mb-soft);border-color:transparent}
+.stat{font-size:22pt;font-weight:800;color:var(--mb-dark);line-height:1.1}
+.stat-l{font-size:9pt;color:var(--tx2)}
+.src{font-size:7.5pt;color:var(--tx3);margin-top:4mm}
+ul.cl{list-style:none}
+ul.cl li{padding-left:5mm;position:relative;margin-bottom:1.8mm}
+ul.cl li:before{content:'';position:absolute;left:0;top:2.1mm;width:2mm;height:2mm;border-radius:50%;background:var(--mb)}
+.tabs-ov{display:grid;grid-template-columns:repeat(2,1fr);gap:4mm}
+.tabs-ov .box{display:flex;gap:4mm;align-items:flex-start}
+.num{flex:none;width:8mm;height:8mm;border-radius:50%;background:var(--mb);color:#fff;font-weight:800;font-size:10pt;display:grid;place-items:center}
+.shot{width:100%;border:1px solid var(--bd);border-radius:6px;box-shadow:0 4px 18px rgba(15,27,45,.10);display:block}
+.mod .shot{max-height:128mm;object-fit:cover;object-position:top;margin-bottom:6mm}
+.qa{font-size:9.5pt}
+.qa b{color:var(--ink)}
+table{width:100%;border-collapse:collapse;font-size:9.5pt}
+th{text-align:left;font-size:8pt;text-transform:uppercase;letter-spacing:.5px;color:var(--tx3);padding:2.5mm 2mm;border-bottom:1px solid var(--bd)}
+td{padding:2.5mm 2mm;border-bottom:1px solid var(--bd);vertical-align:top}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:5mm}
+.step{border-top:4px solid var(--mb);background:#f7f9fc;border-radius:0 0 8px 8px;padding:5mm}
+.step .w{font-size:8pt;font-weight:800;letter-spacing:1.5px;color:var(--mb);text-transform:uppercase}
+.note{font-size:8.5pt;color:var(--tx3);border-left:3px solid var(--bd);padding-left:3mm;margin-top:5mm}
+.closing{background:var(--ink);color:#fff}
+.closing h2,.closing h3{color:#fff}
+.closing .lead{color:#b8c3d6}
+.closing .box{border-color:rgba(255,255,255,.15)}
+.closing .pf{border-color:rgba(255,255,255,.15);color:#8a95a8}
+.p3 .tabs-ov .box{padding:3.5mm 4mm}.p3 .tabs-ov{gap:3mm}.p3 .qa{font-size:9pt;margin-bottom:0}.p3 td{padding:1.8mm 2mm;font-size:9pt}.p3 .lead{margin-bottom:4mm}
+</style>
+</head>
+<body>
+
+<!-- 1 PORTADA -->
+<div class="page cover">
+  <img class="logo" src="img/metrica.png" alt="Métrica">
+  <div class="mid">
+    <div class="for">PROPUESTA PARA GRUPO LORENZO</div>
+    <div class="kick">Producto Métrica</div>
+    <h1>Tablero de Control<br>Automotor · Mendoza</h1>
+    <p class="sub">Escucha social, reputación, intención de visita, visibilidad en buscadores e inteligencia artificial, y mercado. Lorenzo frente a su competencia, en un solo lugar.</p>
+    <img class="shot" src="shots/resumen.jpg" alt="">
+  </div>
+  <div class="meta">Octubre 2026 · Documento explicativo · Las pantallas muestran una demo con datos simulados</div>
+</div>
+
+<!-- 2 CONTEXTO -->
+<div class="page">
+  <div class="kick">El contexto</div>
+  <h2>En un mercado que se achica, gana el que le saca clientes a otro</h2>
+  <p class="lead">La venta de 0 km en Mendoza viene en baja y el comercio acumula más de un año y medio de caída. Cuando el mercado no crece, cada comprador que elige a otro concesionario es una venta perdida. Para no perderla hay que saber, con datos, qué pasa antes de que llegue al salón.</p>
+  <div class="cols3" style="margin-bottom:7mm">
+    <div class="box soft"><div class="stat">−24,6%</div><div class="stat-l">patentamientos de 0 km en mayo de 2026 frente a mayo de 2025 en Mendoza</div></div>
+    <div class="box soft"><div class="stat">−13,4%</div><div class="stat-l">junio de 2026 interanual, aunque fue el mejor mes del año</div></div>
+    <div class="box soft"><div class="stat">+25%</div><div class="stat-l">crecimiento de los patentamientos de motos: el segmento que sí crece</div></div>
+  </div>
+  <div class="cols">
+    <div>
+      <h3>Lo que hoy no se ve</h3>
+      <ul class="cl">
+        <li>Qué dicen de Lorenzo los mendocinos en grupos de Facebook, Instagram, TikTok y en los comentarios de los diarios locales.</li>
+        <li>Por qué un cliente deja una reseña de 1★ y si alguien le respondió.</li>
+        <li>Cuánta gente pidió "cómo llegar" a cada sucursal esta semana frente a la anterior.</li>
+        <li>Si ChatGPT o Google recomiendan a Lorenzo o a la competencia cuando alguien pregunta "¿dónde compro un Ford en Mendoza?".</li>
+        <li>Cómo se mueve la cuota de cada marca y de cada grupo en la provincia.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Lo que proponemos</h3>
+      <p>Un <b>tablero de control único</b>, actualizado todos los días, que reúne esas cinco miradas y compara a Lorenzo con sus competidores directos en Mendoza. Se ve por <b>marca</b> y por <b>sucursal</b>, así cada gerente sigue lo suyo y la dirección ve el panorama completo.</p>
+      <p>Además del tablero, el servicio incluye <b>alertas automáticas</b> y un <b>informe con recomendaciones</b> para que los datos se conviertan en acciones concretas: responder reseñas, corregir fichas, publicar contenido o reforzar una sucursal.</p>
+    </div>
+  </div>
+  <p class="src">Fuentes de los datos de contexto: ACARA y SIOMAA, publicados por Diario Uno y Sitio Andino (junio y julio de 2026), y la Federación Económica de Mendoza.</p>
+  <div class="pf"><img src="img/metrica.png" alt=""><span>Tablero de Control Automotor · Grupo Lorenzo</span><span>2</span></div>
+</div>
+
+<!-- 3 ESTRUCTURA -->
+<div class="page p3">
+  <div class="kick">Cómo está armado</div>
+  <h2>Seis solapas, una sola pregunta: ¿cómo estamos frente a la competencia?</h2>
+  <p class="lead">Cada solapa responde algo concreto del negocio. La primera resume todo en un índice y en alertas, y el resto permite profundizar.</p>
+  <div class="tabs-ov">
+    <div class="box"><div class="num">1</div><div><h3>Resumen</h3><p class="qa">El <b>Índice de Salud de Marca</b> (0–100) combina sentimiento, reputación, intención de visita y visibilidad digital. Incluye el ranking de grupos y las alertas de la semana.</p></div></div>
+    <div class="box"><div class="num">2</div><div><h3>Escucha social · Mendoza</h3><p class="qa">Menciones, sentimiento y temas de conversación de autos <b>solo en la provincia</b>, con filtro por marca.</p></div></div>
+    <div class="box"><div class="num">3</div><div><h3>Reputación Google</h3><p class="qa">Rating, reseñas nuevas, tasa y tiempo de respuesta y motivos de queja, por sucursal propia y de la competencia.</p></div></div>
+    <div class="box"><div class="num">4</div><div><h3>Presencia local · Maps</h3><p class="qa">Vistas, pedidos de <b>"cómo llegar"</b>, llamadas y clics por sucursal, más la concurrencia estimada por día y hora.</p></div></div>
+    <div class="box"><div class="num">5</div><div><h3>SEO · GEO (IA)</h3><p class="qa">Posiciones en Google y un seguimiento de lo que <b>ChatGPT, Gemini, Perplexity y Google IA</b> responden a los compradores.</p></div></div>
+    <div class="box"><div class="num">6</div><div><h3>Mercado</h3><p class="qa">Patentamientos en Mendoza, cuota por marca y por grupo, avance de las marcas chinas y precios de usados.</p></div></div>
+  </div>
+  <h3 style="margin-top:6mm">Competencia monitoreada</h3>
+  <table>
+    <thead><tr><th>Grupo</th><th>Marcas</th><th>Por qué importa</th></tr></thead>
+    <tbody>
+      <tr><td><i class="dot" style="background:#1c73b8"></i><b>Grupo Lorenzo</b></td><td>Fiat, Ford, Peugeot, Citroën, DS, Jeep, RAM, BAIC, LeapMotor, Autoferia</td><td>El cliente</td></tr>
+      <tr><td><i class="dot" style="background:#e0822a"></i><b>Grupo Yacopini</b></td><td>Toyota, Volkswagen, Chevrolet, Nissan, BYD, Mercedes-Benz</td><td>El grupo más grande de Cuyo y el rival directo en marcas chinas (BYD)</td></tr>
+      <tr><td><i class="dot" style="background:#1f9e74"></i><b>Mediterráneo</b></td><td>Renault</td><td>Fuerte en el segmento de autos chicos y con presencia en San Rafael</td></tr>
+      <tr><td><i class="dot" style="background:#9b5de5"></i><b>Goldstein</b></td><td>Ford</td><td>Competidor directo de la misma marca en el Gran Mendoza</td></tr>
+    </tbody>
+  </table>
+  <p class="note">La lista de competidores es preliminar y se arma con información pública. Se ajusta junto con Lorenzo al inicio del trabajo y puede sumar otras concesionarias, agencias de usados o grupos de San Juan y San Luis.</p>
+  <div class="pf"><img src="img/metrica.png" alt=""><span>Tablero de Control Automotor · Grupo Lorenzo</span><span>3</span></div>
+</div>
+
+<!-- 4 ESCUCHA -->
+<div class="page mod">
+  <div class="kick">Módulo 1 · Escucha social</div>
+  <h2>Qué se dice de Lorenzo en Mendoza, y de los demás</h2>
+  <img class="shot" src="shots/social.jpg" alt="">
+  <div class="cols">
+    <div><h3>Qué responde</h3><ul class="cl qa"><li>¿Se habla más o menos de nosotros que de Yacopini?</li><li>¿Qué temas generan quejas: plan de ahorro, entregas, service?</li><li>¿Qué conversaciones quedaron sin respuesta de la marca?</li><li>¿Cómo se recibe el lanzamiento de una marca nueva, como BAIC o Jeep en Chacras?</li></ul></div>
+    <div><h3>Fuentes</h3><p class="qa">Grupos de Facebook de compra-venta y de ahorristas de Mendoza, Instagram, TikTok, X, comentarios en Los Andes, MDZ, Diario Uno, El Sol y Sitio Andino, y reseñas de Google. El filtro geográfico se apoya en cuentas, lugares y menciones locales (Godoy Cruz, Luján, San Rafael, etc.).</p></div>
+  </div>
+  <div class="pf"><img src="img/metrica.png" alt=""><span>Tablero de Control Automotor · Grupo Lorenzo</span><span>4</span></div>
+</div>
+
+<!-- 5 REPUTACION -->
+<div class="page mod">
+  <div class="kick">Módulo 2 · Reputación en Google</div>
+  <h2>Cada reseña es una vidriera: medirla por sucursal</h2>
+  <img class="shot" src="shots/reputacion.jpg" alt="">
+  <div class="cols">
+    <div><h3>Qué responde</h3><ul class="cl qa"><li>¿Qué sucursal está bajando de rating y por qué?</li><li>¿Respondemos las reseñas y en cuánto tiempo?</li><li>¿Cuáles son los motivos de queja más repetidos, clasificados con IA?</li><li>¿Cómo estamos frente a la sucursal de la competencia más cercana?</li></ul></div>
+    <div><h3>Cómo se usa</h3><p class="qa">Alertas ante cada reseña negativa, un tablero de respuestas pendientes por sucursal y un informe mensual de motivos para que posventa y ventas corrijan el origen del problema.</p></div>
+  </div>
+  <div class="pf"><img src="img/metrica.png" alt=""><span>Tablero de Control Automotor · Grupo Lorenzo</span><span>5</span></div>
+</div>
+
+<!-- 6 PRESENCIA -->
+<div class="page mod">
+  <div class="kick">Módulo 3 · Presencia local en Google Maps</div>
+  <h2>Intención de visita: quién quiere venir al salón</h2>
+  <img class="shot" src="shots/presencia.jpg" alt="">
+  <div class="cols">
+    <div><h3>Qué responde</h3><ul class="cl qa"><li>¿Cuánta gente pidió "cómo llegar" o llamó a cada sucursal esta semana?</li><li>¿Nos encuentran por categoría ("concesionaria cerca") o solo los que ya nos conocen?</li><li>¿Qué días y horarios concentran más gente, para planificar vendedores y acciones?</li></ul></div>
+    <div><h3>Datos que necesitamos</h3><p class="qa">Acceso de lectura a los perfiles de Google Business de las sucursales. Más adelante se puede reemplazar el índice de concurrencia por <b>conteo real</b> con sensores en el salón o cruzarlo con el CRM para medir la conversión de visita a venta.</p></div>
+  </div>
+  <div class="pf"><img src="img/metrica.png" alt=""><span>Tablero de Control Automotor · Grupo Lorenzo</span><span>6</span></div>
+</div>
+
+<!-- 7 SEO GEO -->
+<div class="page mod">
+  <div class="kick">Módulo 4 · SEO y GEO</div>
+  <h2>Que Google y la IA recomienden a Lorenzo</h2>
+  <img class="shot" src="shots/seo.jpg" alt="">
+  <div class="cols">
+    <div><h3>Qué responde</h3><ul class="cl qa"><li>¿Aparecemos cuando alguien pregunta a ChatGPT o a Gemini dónde comprar, hacer el service o sacar un plan en Mendoza?</li><li>¿A quién recomienda la IA en lugar de Lorenzo?</li><li>¿En qué búsquedas clave de Google estamos arriba o abajo de la competencia?</li></ul></div>
+    <div><h3>Qué entregamos</h3><p class="qa">Un seguimiento de un set de preguntas reales de compradores en los principales motores de IA, una auditoría técnica y de contenido del sitio y las fichas, y un plan priorizado: datos estructurados por sucursal, páginas de preguntas frecuentes y orden de la arquitectura multimarca.</p></div>
+  </div>
+  <div class="pf"><img src="img/metrica.png" alt=""><span>Tablero de Control Automotor · Grupo Lorenzo</span><span>7</span></div>
+</div>
+
+<!-- 8 MERCADO -->
+<div class="page mod">
+  <div class="kick">Módulo 5 · Mercado</div>
+  <h2>El contexto para leer todo lo anterior</h2>
+  <img class="shot" src="shots/mercado.jpg" alt="">
+  <div class="cols">
+    <div><h3>Qué responde</h3><ul class="cl qa"><li>¿La caída es del mercado o nuestra? ¿Ganamos o perdemos cuota?</li><li>¿Cuánto avanzan las marcas chinas y quién las capitaliza?</li><li>¿Cómo se mueven los precios de los usados que compite Autoferia?</li></ul></div>
+    <div><h3>Fuentes</h3><p class="qa">Datos públicos de patentamientos (DNRPA, ACARA y SIOMAA) desagregados por provincia y marca, y relevamiento de avisos de usados en MercadoLibre y otros portales con ubicación en Mendoza.</p></div>
+  </div>
+  <div class="pf"><img src="img/metrica.png" alt=""><span>Tablero de Control Automotor · Grupo Lorenzo</span><span>8</span></div>
+</div>
+
+<!-- 9 METODOLOGIA -->
+<div class="page">
+  <div class="kick">Cómo trabajamos</div>
+  <h2>De la foto inicial al tablero en funcionamiento</h2>
+  <p class="lead">Proponemos avanzar por etapas para que Lorenzo vea valor desde la primera semana, sin esperar a tener todo integrado.</p>
+  <div class="steps" style="margin-bottom:8mm">
+    <div class="step"><div class="w">Etapa 1</div><h3>Diagnóstico inicial</h3><p class="qa">Una foto del punto de partida hecha con datos públicos: reputación de todas las sucursales y de la competencia, prueba de visibilidad en IA, estado de las fichas de Google y una muestra de escucha social.</p></div>
+    <div class="step"><div class="w">Etapa 2</div><h3>Piloto</h3><p class="qa">Tablero activo para 2 o 3 marcas prioritarias (por ejemplo Ford, Jeep y BAIC) con alertas e informes. Sirve para validar indicadores, umbrales y formatos con el equipo.</p></div>
+    <div class="step"><div class="w">Etapa 3</div><h3>Implementación completa</h3><p class="qa">Todas las marcas y sucursales, integración con Google Business y, si se decide, con el CRM y el conteo de visitas. Seguimiento continuo y recomendaciones.</p></div>
+  </div>
+  <div class="cols">
+    <div class="box">
+      <h3>Entregables</h3>
+      <ul class="cl qa">
+        <li>Tablero web con acceso para dirección y gerentes, actualizado todos los días.</li>
+        <li>Alertas automáticas: picos de quejas, reseñas negativas y cambios de visibilidad.</li>
+        <li>Informe semanal breve con lo más relevante.</li>
+        <li>Informe mensual con análisis y recomendaciones accionables.</li>
+        <li>Reunión mensual de revisión con el equipo de Lorenzo.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3>Qué necesitamos de Lorenzo</h3>
+      <ul class="cl qa">
+        <li>Un referente del grupo para validar marcas, sucursales y prioridades.</li>
+        <li>Acceso de lectura a los perfiles de Google Business de las sucursales.</li>
+        <li>Acceso a las cuentas de redes sociales de cada marca, si se quiere sumar sus métricas internas.</li>
+        <li>Acceso a Google Search Console y Analytics del sitio, para SEO.</li>
+        <li>Opcional: exportación periódica de leads o ventas del CRM.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="note">Todo el trabajo cumple las condiciones de uso de cada plataforma. La escucha social analiza contenido público y no recolecta datos personales de los usuarios: se trabaja con volúmenes, temas y sentimiento.</p>
+  <div class="pf"><img src="img/metrica.png" alt=""><span>Tablero de Control Automotor · Grupo Lorenzo</span><span>9</span></div>
+</div>
+
+<!-- 10 CIERRE -->
+<div class="page closing">
+  <img src="img/metrica.png" alt="Métrica" style="height:34px;filter:brightness(0) invert(1);margin-bottom:30mm">
+  <div class="kick" style="color:#7fb6e6">Próximos pasos</div>
+  <h2 style="font-size:26pt">Empezar por la foto inicial</h2>
+  <p class="lead" style="max-width:150mm">Con información pública podemos mostrarle a Lorenzo, en pocos días, dónde está parado frente a su competencia en reputación, conversación y visibilidad en IA. Es la mejor forma de evaluar el producto con datos propios.</p>
+  <div class="cols3" style="margin-top:10mm">
+    <div class="box"><h3>1 · Reunión de alcance</h3><p class="qa" style="color:#b8c3d6">Definir marcas, sucursales y competidores prioritarios.</p></div>
+    <div class="box"><h3>2 · Diagnóstico inicial</h3><p class="qa" style="color:#b8c3d6">Entrega de la foto inicial con hallazgos y oportunidades rápidas.</p></div>
+    <div class="box"><h3>3 · Piloto</h3><p class="qa" style="color:#b8c3d6">Tablero activo en las marcas elegidas, con alertas e informes.</p></div>
+  </div>
+  <p class="note" style="border-color:rgba(255,255,255,.2);color:#8a95a8;margin-top:14mm">Las pantallas de este documento corresponden a una demo con datos simulados con fines ilustrativos. Las cifras de contexto de mercado de la página 2 provienen de fuentes públicas. Los alcances y condiciones comerciales se definirán en una propuesta posterior.</p>
+  <div class="pf"><span>Métrica · Octubre 2026</span><span>Tablero de Control Automotor · Grupo Lorenzo</span><span>10</span></div>
+</div>
+</body>
+</html>

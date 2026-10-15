@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Métrica Auto Mendoza</title>
+<meta name="description" content="Demo de producto Métrica: tablero de control automotor para Grupo Lorenzo en Mendoza. Datos simulados.">
+<link rel="icon" href="img/metrica.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#f3f5f9;--card:#ffffff;--ink:#0b1626;--tx:#1a2537;--tx2:#5a6780;--tx3:#8f9ab0;
+  --mb:#1c73b8;--mb-dark:#0f4f86;--mb-soft:#e9f2fb;--mb-glow:rgba(28,115,184,.18);
+  --side:#0b1626;--side2:#13233a;--side-tx:#93a3bd;
+  --c-lor:#1c73b8;--c-yac:#e0822a;--c-med:#1f9e74;--c-gol:#9b5de5;--c-otr:#a3abb9;
+  --good:#16834e;--good-bg:#e4f5ec;--warn:#a86a10;--warn-bg:#fcf1dd;--bad:#c23a2c;--bad-bg:#fce7e4;
+  --bd:rgba(11,22,38,.07);
+  --sh:0 1px 2px rgba(11,22,38,.04),0 4px 16px rgba(11,22,38,.05);
+  --sh-h:0 2px 4px rgba(11,22,38,.05),0 14px 36px rgba(11,22,38,.10);
+  --r:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.5;-webkit-font-smoothing:antialiased;font-size:14px}
+.app{display:flex;min-height:100vh}
+
+/* ---------- SIDEBAR ---------- */
+aside{width:252px;flex:none;background:linear-gradient(180deg,var(--side) 0%,#0e1d33 100%);color:var(--side-tx);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;padding:22px 16px}
+.brand{display:flex;align-items:center;padding:4px 10px 22px}
+.brand img{height:26px;filter:brightness(0) invert(1)}
+.client{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:12px;display:flex;gap:10px;align-items:center;margin-bottom:22px}
+.client .av{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#2b8ad6,#0f4f86);display:grid;place-items:center;color:#fff;font-weight:800;font-size:15px}
+.client b{display:block;color:#fff;font-size:13px}
+.client small{font-size:11px}
+.navlbl{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:#5d6e8a;padding:0 10px 8px}
+nav#tabs{display:flex;flex-direction:column;gap:2px}
+nav#tabs button{display:flex;align-items:center;gap:11px;border:0;background:none;font:inherit;font-size:13.5px;font-weight:600;color:var(--side-tx);padding:10px 12px;border-radius:10px;cursor:pointer;text-align:left;transition:.18s}
+nav#tabs button svg{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+nav#tabs button:hover{background:rgba(255,255,255,.05);color:#fff}
+nav#tabs button.on{background:linear-gradient(90deg,rgba(43,138,214,.28),rgba(43,138,214,.08));color:#fff;box-shadow:inset 3px 0 0 #4fa3e6}
+nav#tabs button .ct{margin-left:auto;font-size:10px;font-weight:800;background:var(--bad);color:#fff;border-radius:10px;padding:1px 7px}
+.side-foot{margin-top:auto;font-size:11px;line-height:1.5;padding:12px;border-radius:12px;background:rgba(224,130,42,.10);border:1px solid rgba(224,130,42,.25);color:#f3c38d}
+.side-foot b{color:#ffd9ac;display:block;margin-bottom:2px}
+
+/* ---------- MAIN ---------- */
+.main{flex:1;min-width:0}
+.topbar{position:sticky;top:0;z-index:20;background:rgba(243,245,249,.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--bd)}
+.tb{padding:14px 30px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.tb .crumb{font-size:12px;color:var(--tx3);font-weight:600}
+.tb h1{font-size:20px;font-weight:800;color:var(--ink);letter-spacing:-.3px;line-height:1.2}
+.tb .right{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.pill{font-size:12px;font-weight:600;border:1px solid var(--bd);border-radius:999px;padding:7px 13px;color:var(--tx2);background:#fff;display:inline-flex;align-items:center;gap:7px}
+.pill svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+.pill.live{color:var(--good)}
+.pill.live i{width:7px;height:7px;border-radius:50%;background:var(--good);box-shadow:0 0 0 0 rgba(22,131,78,.5);animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(22,131,78,.45)}70%{box-shadow:0 0 0 8px rgba(22,131,78,0)}100%{box-shadow:0 0 0 0 rgba(22,131,78,0)}}
+.btn{font:inherit;font-size:12px;font-weight:700;border:0;border-radius:999px;padding:8px 15px;background:var(--ink);color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:7px;cursor:pointer;transition:.2s}
+.btn:hover{background:var(--mb)}
+.btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2}
+.content{padding:26px 30px 50px;max-width:1360px}
+section.tab{display:none}
+section.tab.on{display:block;animation:fade .45s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.lead{color:var(--tx2);font-size:13.5px;margin:-4px 0 20px;max-width:860px}
+
+.grid{display:grid;gap:16px}
+.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}
+.span2{grid-column:span 2}
+.mt{margin-top:16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:20px 22px;box-shadow:var(--sh);min-width:0;transition:box-shadow .25s,transform .25s}
+.card:hover{box-shadow:var(--sh-h)}
+.card h3{font-size:14px;font-weight:700;color:var(--ink)}
+.card .cap{font-size:12px;color:var(--tx3);margin:2px 0 14px}
+.card-hd{display:flex;align-items:flex-start;gap:10px}
+.card-hd .tag{margin-left:auto}
+
+/* KPI */
+.kpi{position:relative;overflow:hidden;padding:18px 20px 14px}
+.kpi .top{display:flex;align-items:center;gap:9px}
+.kpi .ico{width:32px;height:32px;border-radius:9px;background:var(--mb-soft);color:var(--mb);display:grid;place-items:center;flex:none}
+.kpi .ico svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.kpi .lbl{font-size:12.5px;color:var(--tx2);font-weight:600}
+.kpi .val{font-size:30px;font-weight:800;color:var(--ink);letter-spacing:-.8px;margin:10px 0 2px;line-height:1.1;font-variant-numeric:tabular-nums}
+.kpi .val small{font-size:15px;color:var(--tx3);font-weight:700;letter-spacing:0}
+.kpi .cmp{font-size:12px;color:var(--tx2);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.kpi .spark{height:38px;margin:8px -4px 0}
+.delta{display:inline-flex;align-items:center;gap:3px;font-weight:700;font-size:11.5px;padding:2px 7px;border-radius:999px}
+.delta.up{background:var(--good-bg);color:var(--good)}.delta.dn{background:var(--bad-bg);color:var(--bad)}.delta.fl{background:var(--warn-bg);color:var(--warn)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.25fr 2fr;gap:16px;margin-bottom:16px}
+.hero-card{background:radial-gradient(120% 140% at 100% 0%,#2b8ad6 0%,#0f4f86 45%,#0b1626 100%);color:#d3e3f5;border:0;position:relative;overflow:hidden}
+.hero-card:after{content:'';position:absolute;width:300px;height:300px;border-radius:50%;border:1px solid rgba(255,255,255,.08);right:-90px;bottom:-140px}
+.hero-card:before{content:'';position:absolute;width:200px;height:200px;border-radius:50%;border:1px solid rgba(255,255,255,.08);right:-40px;bottom:-90px}
+.hero-card h3{color:#fff}
+.hero-card .cap{color:#9fbbd9}
+.gauge-wrap{display:flex;align-items:center;gap:24px;position:relative;z-index:1}
+.gauge{position:relative;width:150px;height:150px;flex:none}
+.gauge svg{transform:rotate(-90deg)}
+.gauge .gv{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.gauge .gv b{font-size:42px;font-weight:800;color:#fff;letter-spacing:-1px;line-height:1}
+.gauge .gv span{font-size:11px;color:#9fbbd9;font-weight:600;margin-top:3px}
+.rank{flex:1;display:flex;flex-direction:column;gap:9px}
+.rank .r{display:grid;grid-template-columns:96px 1fr 28px;align-items:center;gap:10px;font-size:12px}
+.rank .r .bar{height:7px;border-radius:4px;background:rgba(255,255,255,.1);overflow:hidden}
+.rank .r .bar i{display:block;height:100%;border-radius:4px;transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.rank .r b{color:#fff;text-align:right;font-variant-numeric:tabular-nums}
+.rank .r.me span{color:#fff;font-weight:700}
+
+.chart{position:relative;height:270px}
+.chart.sm{height:210px}.chart.lg{height:340px}
+
+/* tables */
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--tx3);font-weight:700;padding:9px 10px;border-bottom:1px solid var(--bd);white-space:nowrap}
+td{padding:11px 10px;border-bottom:1px solid var(--bd);vertical-align:middle}
+tbody tr{transition:background .15s}
+tbody tr:hover td{background:#f7f9fc}
+tbody tr:last-child td{border-bottom:0}
+tr.own td{background:var(--mb-soft)}
+tr.own:hover td{background:#deebf8}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.tbl-wrap{overflow-x:auto;margin:0 -6px}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:8px;vertical-align:0}
+.gname{display:flex;align-items:center;font-weight:700;color:var(--ink)}
+.tag{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.tag.good{background:var(--good-bg);color:var(--good)}.tag.warn{background:var(--warn-bg);color:var(--warn)}.tag.bad{background:var(--bad-bg);color:var(--bad)}.tag.neu{background:#eef1f5;color:var(--tx2)}.tag.blue{background:var(--mb-soft);color:var(--mb)}
+.idx{display:inline-grid;place-items:center;min-width:38px;height:26px;border-radius:8px;font-weight:800;font-size:13px}
+.mini{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.mini .b{width:70px;height:6px;border-radius:3px;background:#eef1f5;overflow:hidden}
+.mini .b i{display:block;height:100%;border-radius:3px}
+
+/* alerts */
+.alert{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--bd)}
+.alert:last-child{border-bottom:0;padding-bottom:0}
+.alert .ic{flex:none;width:32px;height:32px;border-radius:10px;display:grid;place-items:center}
+.alert .ic svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.alert .ic.bad{background:var(--bad-bg);color:var(--bad)}.alert .ic.warn{background:var(--warn-bg);color:var(--warn)}.alert .ic.good{background:var(--good-bg);color:var(--good)}
+.alert p{font-size:13px;color:var(--tx2);line-height:1.45}
+.alert p b{color:var(--ink)}
+.alert small{display:block;color:var(--tx3);font-size:11px;margin-top:3px}
+
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--tx2);margin-bottom:10px}
+.legend span{display:inline-flex;align-items:center}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;align-items:center}
+.filters label{font-size:12px;color:var(--tx2);font-weight:700}
+.seg{display:inline-flex;background:#e8ecf2;border-radius:11px;padding:3px;gap:2px;flex-wrap:wrap}
+.seg button{border:0;background:none;font:inherit;font-size:12.5px;font-weight:600;padding:7px 13px;color:var(--tx2);cursor:pointer;border-radius:8px;transition:.18s}
+.seg button:hover{color:var(--ink)}
+.seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(11,22,38,.12)}
+select{font:inherit;font-size:13px;font-weight:600;padding:8px 34px 8px 13px;border:1px solid var(--bd);border-radius:11px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235a6780' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center;color:var(--ink);appearance:none;cursor:pointer}
+
+/* feed */
+.feed .it{padding:12px 0;border-bottom:1px solid var(--bd);display:flex;gap:11px}
+.feed .it:last-child{border-bottom:0}
+.feed .av{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:800;color:#fff}
+.feed .meta{font-size:11px;color:var(--tx3);margin-bottom:3px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.feed .meta b{color:var(--tx2)}
+.feed p{font-size:13px;color:var(--tx)}
+
+/* topics */
+.topic{display:grid;grid-template-columns:1fr 54px 120px;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--bd);font-size:13px}
+.topic:last-child{border-bottom:0}
+.topic .n{text-align:right;color:var(--tx2);font-variant-numeric:tabular-nums}
+.div{position:relative;height:8px;background:#eef1f5;border-radius:4px}
+.div:before{content:'';position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:#c7cfdb}
+.div i{position:absolute;top:0;bottom:0;border-radius:4px}
+
+/* heat */
+.heat{display:grid;grid-template-columns:40px repeat(12,1fr);gap:4px;font-size:11px}
+.heat .h{color:var(--tx3);text-align:center;font-weight:600}
+.heat .d{color:var(--tx2);font-weight:700;display:flex;align-items:center}
+.heat .c{height:30px;border-radius:6px;cursor:default;transition:transform .15s}
+.heat .c:hover{transform:scale(1.12);box-shadow:0 4px 10px rgba(11,22,38,.25)}
+.scale{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--tx3);margin-top:12px}
+.scale i{flex:0 0 120px;height:8px;border-radius:4px;background:linear-gradient(90deg,rgba(15,79,134,.08),rgba(15,79,134,1))}
+
+.ai{display:inline-grid;place-items:center;width:26px;height:26px;font-weight:800;font-size:12px;border-radius:8px}
+.ai.y{background:var(--good-bg);color:var(--good)}.ai.n{background:var(--bad-bg);color:var(--bad)}.ai.p{background:var(--warn-bg);color:var(--warn)}
+.check li{list-style:none;padding:11px 0;border-bottom:1px solid var(--bd);display:flex;gap:12px;align-items:flex-start;font-size:13px;color:var(--tx2)}
+.check li b{color:var(--ink)}
+.check li:last-child{border-bottom:0}
+.check .tag{flex:none;min-width:62px;justify-content:center}
+.note{font-size:11.5px;color:var(--tx3);margin-top:12px}
+.pos{display:inline-grid;place-items:center;min-width:36px;height:24px;border-radius:7px;font-weight:800;font-size:12px}
+
+footer{padding:0 30px 30px;font-size:11px;color:var(--tx3);display:flex;gap:10px;align-items:center}
+footer img{height:15px;opacity:.6}
+#tt{position:fixed;pointer-events:none;background:var(--ink);color:#fff;font-size:12px;padding:7px 10px;border-radius:8px;opacity:0;transition:opacity .1s;z-index:99;box-shadow:0 6px 18px rgba(0,0,0,.2)}
+
+@media(max-width:1180px){.g4{grid-template-columns:repeat(2,1fr)}.hero{grid-template-columns:1fr}}
+@media(max-width:980px){
+  .app{flex-direction:column}
+  aside{width:100%;height:auto;position:sticky;top:0;z-index:30;padding:12px 16px 10px;flex-direction:column}
+  .brand{padding:0 0 10px}.brand img{height:20px}
+  .client,.navlbl,.side-foot{display:none}
+  nav#tabs{flex-direction:row;overflow-x:auto;gap:4px;scrollbar-width:none}
+  nav#tabs button{white-space:nowrap;padding:8px 11px;font-size:12.5px}
+  nav#tabs button.on{box-shadow:inset 0 -2px 0 #4fa3e6}
+  .topbar{position:static}
+  .tb,.content{padding-left:16px;padding-right:16px}
+  .g3,.g2{grid-template-columns:1fr}.span2{grid-column:auto}
+  footer{padding:0 16px 24px}
+}
+@media(max-width:560px){.g4{grid-template-columns:1fr}.gauge-wrap{flex-direction:column;align-items:stretch}.gauge{margin:0 auto}.topic{grid-template-columns:1fr 44px 80px}}
+html.static *{animation:none!important;transition:none!important}
+.grid>*,.hero>*{min-width:0}
+@media(max-width:980px){.main{width:100%}.content{overflow-x:hidden}.tb .right{margin-left:0}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside>
+  <div class="brand"><img src="img/metrica.png" alt="Métrica"></div>
+  <div class="client"><div class="av">L</div><div><b>Grupo Lorenzo</b><small>Mendoza · San Juan · San Luis</small></div></div>
+  <div class="navlbl">Tablero</div>
+  <nav id="tabs">
+    <button data-t="resumen" class="on"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>Resumen<span class="ct">4</span></button>
+    <button data-t="social"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 11h7M8.5 14.5h4"/></svg>Escucha social</button>
+    <button data-t="reputacion"><svg viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>Reputación Google</button>
+    <button data-t="presencia"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Presencia en Maps</button>
+    <button data-t="seo"><svg viewBox="0 0 24 24"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg>SEO · GEO (IA)</button>
+    <button data-t="mercado"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 6-7"/></svg>Mercado</button>
+  </nav>
+  <div class="side-foot"><b>Demo de producto</b>Todos los datos son simulados con fines ilustrativos. Competidores identificados con fuentes públicas.</div>
+</aside>
+
+<div class="main">
+  <div class="topbar"><div class="tb">
+    <div><div class="crumb">Grupo Lorenzo · Mendoza</div><h1 id="ttl">Resumen</h1></div>
+    <div class="right">
+      <span class="pill"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>15 sep – 14 oct 2026</span>
+      <span class="pill live"><i></i>Actualizado hoy 08:00</span>
+      <a class="btn" href="propuesta_lorenzo.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0-4-4m4 4 4-4M5 21h14"/></svg>Propuesta PDF</a>
+    </div>
+  </div></div>
+
+<div class="content">
+<!-- ================= RESUMEN ================= -->
+<section class="tab on" id="resumen" data-title="Resumen">
+  <p class="lead">Cómo está Grupo Lorenzo frente a sus competidores directos en Mendoza: conversación, reputación, intención de visita y visibilidad digital.</p>
+
+  <div class="hero">
+    <div class="card hero-card">
+      <h3>Índice de Salud de Marca</h3>
+      <div class="cap">Sentimiento + reputación + intención de visita + visibilidad digital</div>
+      <div class="gauge-wrap">
+        <div class="gauge">
+          <svg width="150" height="150" viewBox="0 0 150 150"><circle cx="75" cy="75" r="63" stroke="rgba(255,255,255,.12)" stroke-width="12" fill="none"/><circle id="gauge-arc" cx="75" cy="75" r="63" stroke="url(#gg)" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="395.8" stroke-dashoffset="395.8" style="transition:stroke-dashoffset 1.3s cubic-bezier(.2,.8,.2,1)"/><defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7cc1f3"/><stop offset="1" stop-color="#2b8ad6"/></linearGradient></defs></svg>
+          <div class="gv"><b data-count="64">0</b><span>de 100 · ▼ 3 pts</span></div>
+        </div>
+        <div class="rank" id="hero-rank"></div>
+      </div>
+    </div>
+    <div class="grid g2" id="hero-kpis"></div>
+  </div>
+
+  <div class="grid g3">
+    <div class="card span2">
+      <h3>Evolución del Índice de Salud de Marca</h3>
+      <div class="cap">Últimas 12 semanas · escala 0–100</div>
+      <div class="legend" id="lg-health"></div>
+      <div class="chart lg"><canvas id="ch-health"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div><h3>Alertas de la semana</h3><div class="cap">Detectadas automáticamente</div></div><span class="tag bad">2 críticas</span></div>
+      <div class="alert"><div class="ic bad"><svg viewBox="0 0 24 24"><path d="M12 8v5M12 16.5v.5"/><circle cx="12" cy="12" r="9"/></svg></div><p><b>Quejas por demoras de entrega en Jeep: +140%</b> en grupos de Facebook y en las reseñas de Chacras Park.<small>Hace 2 días · Escucha social</small></p></div>
+      <div class="alert"><div class="ic bad"><svg viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg></div><p><b>Ford Godoy Cruz bajó a 4,1★</b>: 9 reseñas negativas sobre turnos de service.<small>Hace 3 días · Reputación</small></p></div>
+      <div class="alert"><div class="ic warn"><svg viewBox="0 0 24 24"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/></svg></div><p><b>ChatGPT recomienda a Goldstein</b> ante "concesionaria Ford Mendoza". Lorenzo no aparece.<small>Esta semana · GEO</small></p></div>
+      <div class="alert"><div class="ic good"><svg viewBox="0 0 24 24"><path d="m4 16 6-6 4 4 6-7"/><path d="M15 7h5v5"/></svg></div><p><b>BAIC by Lorenzo: +62% en menciones</b>. Conversación positiva por precio y equipamiento.<small>Hoy · Escucha social</small></p></div>
+    </div>
+  </div>
+
+  <div class="card mt">
+    <h3>Comparativo de competidores</h3>
+    <div class="cap">Grupos con presencia en el Gran Mendoza y San Rafael · marcas según fuentes públicas, métricas simuladas</div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Grupo</th><th>Marcas principales</th><th class="num">Menciones</th><th class="num">Sent. neto</th><th class="num">Rating</th><th class="num">Reseñas 30d</th><th class="num">Visibilidad IA</th><th class="num">Índice</th></tr></thead>
+      <tbody id="tb-comp"></tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- ================= SOCIAL ================= -->
+<section class="tab" id="social" data-title="Escucha social · Mendoza">
+  <p class="lead">Conversación sobre autos geolocalizada en la provincia: redes, grupos de compra-venta, comentarios en medios locales (Los Andes, MDZ, Diario Uno, El Sol, Sitio Andino) y foros.</p>
+  <div class="filters">
+    <label>Marca</label>
+    <div class="seg" id="f-brand">
+      <button class="on" data-b="todas">Todas</button><button data-b="ford">Ford</button><button data-b="fiat">Fiat</button><button data-b="stellantis">Peugeot · Citroën</button><button data-b="jeep">Jeep · RAM</button><button data-b="chinas">Chinas</button>
+    </div>
+  </div>
+  <div class="grid g4" id="soc-kpis"></div>
+  <div class="grid g3 mt">
+    <div class="card span2">
+      <h3>Menciones diarias por grupo</h3>
+      <div class="cap">Últimos 30 días</div>
+      <div class="legend" id="lg-ment"></div>
+      <div class="chart"><canvas id="ch-ment"></canvas></div>
+    </div>
+    <div class="card">
+      <h3>Sentimiento por grupo</h3>
+      <div class="cap">% de menciones positivas, neutras y negativas</div>
+      <div class="chart"><canvas id="ch-sent"></canvas></div>
+    </div>
+  </div>
+  <div class="grid g3 mt">
+    <div class="card">
+      <h3>Temas de conversación sobre Lorenzo</h3>
+      <div class="cap">Volumen y sentimiento neto (de −100 a +100)</div>
+      <div id="tb-topics"></div>
+    </div>
+    <div class="card">
+      <h3>Fuentes</h3>
+      <div class="cap">Dónde se habla de Lorenzo</div>
+      <div class="chart"><canvas id="ch-src"></canvas></div>
+    </div>
+    <div class="card">
+      <h3>Menciones destacadas</h3>
+      <div class="cap">Ejemplos simulados · texto anonimizado</div>
+      <div class="feed" id="feed"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= REPUTACION ================= -->
+<section class="tab" id="reputacion" data-title="Reputación en Google">
+  <p class="lead">Reseñas de Google Maps de cada sucursal de Lorenzo y de la competencia: rating, volumen, tasa de respuesta y motivos de queja.</p>
+  <div class="grid g4" id="rep-kpis"></div>
+  <div class="grid g2 mt">
+    <div class="card">
+      <h3>Rating por sucursal vs. competencia</h3>
+      <div class="cap">Promedio de estrellas en Google Maps</div>
+      <div class="legend" id="lg-rating"></div>
+      <div class="chart lg"><canvas id="ch-rating"></canvas></div>
+    </div>
+    <div class="card">
+      <h3>Motivos de reseñas negativas · Lorenzo</h3>
+      <div class="cap">Clasificación automática con IA de las reseñas de 1 y 2★ (30 días)</div>
+      <div class="chart lg"><canvas id="ch-neg"></canvas></div>
+    </div>
+  </div>
+  <div class="card mt">
+    <h3>Detalle por sucursal</h3>
+    <div class="cap">Las filas resaltadas son de Grupo Lorenzo</div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Sucursal</th><th>Grupo</th><th class="num">Rating</th><th class="num">Total reseñas</th><th class="num">Nuevas 30d</th><th class="num">Respondidas</th><th>Estado</th></tr></thead>
+      <tbody id="tb-rev"></tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- ================= PRESENCIA ================= -->
+<section class="tab" id="presencia" data-title="Presencia local · Google Maps">
+  <p class="lead">Cuánta gente encuentra cada sucursal, pide cómo llegar, llama o entra a la web desde Google. Los pedidos de "cómo llegar" son la mejor señal de intención de visita al salón.</p>
+  <div class="filters"><label>Sucursal</label><select id="f-suc"></select></div>
+  <div class="grid g4" id="pres-kpis"></div>
+  <div class="grid g3 mt">
+    <div class="card span2">
+      <h3>Intención de visita semanal</h3>
+      <div class="cap">Pedidos de "cómo llegar" y llamadas desde el perfil de Google · 12 semanas</div>
+      <div class="legend"><span><i class="dot" style="background:var(--c-lor)"></i>Cómo llegar</span><span><i class="dot" style="background:var(--c-yac)"></i>Llamadas</span></div>
+      <div class="chart"><canvas id="ch-visit"></canvas></div>
+    </div>
+    <div class="card">
+      <h3>Cómo te encuentran</h3>
+      <div class="cap">Tipo de búsqueda que mostró el perfil</div>
+      <div class="chart"><canvas id="ch-disc"></canvas></div>
+    </div>
+  </div>
+  <div class="grid g2 mt">
+    <div class="card">
+      <h3>Concurrencia estimada en el salón</h3>
+      <div class="cap">Índice relativo por día y hora (0–100)</div>
+      <div class="heat" id="heat"></div>
+      <div class="scale"><span>Menos gente</span><i></i><span>Más gente</span></div>
+      <p class="note">Con el permiso del cliente se puede reemplazar por conteo real con sensores o cruzar con el CRM.</p>
+    </div>
+    <div class="card">
+      <h3>Ranking de sucursales Lorenzo</h3>
+      <div class="cap">Acciones en el perfil de Google (30 días)</div>
+      <div class="tbl-wrap"><table><thead><tr><th>Sucursal</th><th class="num">Vistas</th><th class="num">Cómo llegar</th><th class="num">Llamadas</th><th class="num">Var.</th></tr></thead><tbody id="tb-suc"></tbody></table></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SEO / GEO ================= -->
+<section class="tab" id="seo" data-title="SEO · GEO (visibilidad en IA)">
+  <p class="lead">Si Lorenzo aparece cuando alguien de Mendoza busca en Google o le pregunta a ChatGPT, Gemini, Perplexity o a la IA de Google dónde comprar o hacer el service de su auto.</p>
+  <div class="grid g4" id="seo-kpis"></div>
+  <div class="grid g3 mt">
+    <div class="card">
+      <h3>Presencia en IA por grupo</h3>
+      <div class="cap">% de respuestas donde el grupo es mencionado o recomendado</div>
+      <div class="chart"><canvas id="ch-ai"></canvas></div>
+    </div>
+    <div class="card span2">
+      <h3>Qué responde la IA</h3>
+      <div class="cap">Preguntas típicas de compradores · <span class="ai y" style="width:18px;height:18px;font-size:10px">✓</span> recomienda a Lorenzo · <span class="ai p" style="width:18px;height:18px;font-size:10px">~</span> lo menciona · <span class="ai n" style="width:18px;height:18px;font-size:10px">✗</span> no aparece</div>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Pregunta</th><th class="num">ChatGPT</th><th class="num">Gemini</th><th class="num">Perplexity</th><th class="num">Google IA</th><th>Recomienda en su lugar</th></tr></thead>
+        <tbody id="tb-ai"></tbody>
+      </table></div>
+    </div>
+  </div>
+  <div class="grid g2 mt">
+    <div class="card">
+      <h3>Posiciones en Google · keywords clave</h3>
+      <div class="cap">Búsquedas desde Mendoza</div>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Keyword</th><th class="num">Búsq./mes</th><th class="num">Lorenzo</th><th class="num">Primer resultado</th></tr></thead>
+        <tbody id="tb-kw"></tbody>
+      </table></div>
+    </div>
+    <div class="card">
+      <h3>Auditoría técnica y de contenido</h3>
+      <div class="cap">Acciones priorizadas</div>
+      <ul class="check">
+        <li><span class="tag bad">Crítico</span><div>Sin datos estructurados <b>AutoDealer / LocalBusiness</b> por sucursal: la IA no puede asociar marca, dirección y horario.</div></li>
+        <li><span class="tag bad">Crítico</span><div>Las marcas están en sitios separados y no hay una página que explique <b>quién es el grupo</b>. La autoridad de la marca queda repartida.</div></li>
+        <li><span class="tag bad">Crítico</span><div>Fichas de Google con <b>categorías inconsistentes</b> en 5 de las 17 sucursales.</div></li>
+        <li><span class="tag warn">Medio</span><div>No hay páginas de <b>preguntas frecuentes</b> (plan de ahorro, permuta, financiación) que la IA pueda citar.</div></li>
+        <li><span class="tag warn">Medio</span><div>Las páginas de modelos son lentas en mobile: <b>LCP de 4,2 s</b>.</div></li>
+        <li><span class="tag good">OK</span><div>HTTPS, sitemap e indexación correctos.</div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MERCADO ================= -->
+<section class="tab" id="mercado" data-title="Mercado automotor · Mendoza">
+  <p class="lead">Patentamientos de 0 km en la provincia (DNRPA, ACARA, SIOMAA), participación por marca y por grupo, y precios de usados publicados.</p>
+  <div class="grid g4" id="mkt-kpis"></div>
+  <div class="grid g3 mt">
+    <div class="card span2">
+      <h3>Patentamientos mensuales en Mendoza</h3>
+      <div class="cap">Autos y livianos · 2026 vs 2025</div>
+      <div class="legend"><span><i class="dot" style="background:var(--c-lor)"></i>2026</span><span><i class="dot" style="background:#c9cfd9"></i>2025</span></div>
+      <div class="chart"><canvas id="ch-pat"></canvas></div>
+    </div>
+    <div class="card">
+      <h3>Cuota por grupo</h3>
+      <div class="cap">% de patentamientos ene–sep</div>
+      <div class="chart"><canvas id="ch-share"></canvas></div>
+    </div>
+  </div>
+  <div class="grid g2 mt">
+    <div class="card">
+      <h3>Ranking de marcas en Mendoza</h3>
+      <div class="cap">Unidades ene–sep · en azul las marcas de Lorenzo</div>
+      <div class="chart lg"><canvas id="ch-brands"></canvas></div>
+    </div>
+    <div class="card">
+      <h3>Precios de usados publicados</h3>
+      <div class="cap">Mediana en MercadoLibre Mendoza · modelos 2022 · referencia para Autoferia</div>
+      <div class="tbl-wrap"><table><thead><tr><th>Modelo</th><th class="num">Avisos</th><th class="num">Mediana USD</th><th class="num">Var. 30d</th></tr></thead><tbody id="tb-used"></tbody></table></div>
+    </div>
+  </div>
+</section>
+</div>
+<footer><img src="img/metrica.png" alt="">Producto de Métrica · Demo con datos simulados · Octubre 2026</footer>
+</div>
+</div>
+<div id="tt"></div>
+
+<script>
+const STATIC=location.search.includes('static');if(STATIC)document.documentElement.classList.add('static');
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const G=[
+  {k:'lor',n:'Grupo Lorenzo',s:'Lorenzo',c:css('--c-lor'),brands:'Fiat, Ford, Peugeot, Citroën, Jeep, RAM, BAIC, LeapMotor'},
+  {k:'yac',n:'Grupo Yacopini',s:'Yacopini',c:css('--c-yac'),brands:'Toyota, VW, Chevrolet, Nissan, BYD, Mercedes-Benz'},
+  {k:'med',n:'Mediterráneo',s:'Mediterráneo',c:css('--c-med'),brands:'Renault'},
+  {k:'gol',n:'Goldstein',s:'Goldstein',c:css('--c-gol'),brands:'Ford'}
+];
+const gk=k=>G.find(g=>g.k===k);
+let s=7;const R=()=>{s=(s*16807)%2147483647;return (s-1)/2147483646};
+const fmt=n=>n.toLocaleString('es-AR');
+const ICON={
+  heart:'<path d="M20.8 5.6a5.5 5.5 0 0 0-7.8 0L12 6.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 22l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/>',
+  msg:'<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',
+  pin:'<path d="M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
+  spark:'<path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/>',
+  star:'<path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
+  eye:'<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  phone:'<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/>',
+  click:'<path d="M9 9l5 12 1.8-5.2L21 14z"/><path d="M7.2 2.2 8 5.1M5.1 8 2.2 7.2M14 4.1 12 6M6 12l-1.9 2"/>',
+  reply:'<path d="M9 17 4 12l5-5"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  users:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/>',
+  alert:'<circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.5"/>',
+  search:'<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>',
+  chart:'<path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 6-7"/>',
+  car:'<path d="M5 17h14M3 13l2-6a2 2 0 0 1 2-1.4h10A2 2 0 0 1 19 7l2 6v4H3z"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/>',
+  pie:'<path d="M21.2 15.9A10 10 0 1 1 8 2.8"/><path d="M22 12A10 10 0 0 0 12 2v10z"/>',
+  bolt:'<path d="M13 2 3 14h9l-1 8 10-12h-9z"/>',
+  tool:'<path d="M14.7 6.3a4 4 0 0 0 5 5L22 14l-8 8-2.3-2.3a4 4 0 0 0-5-5L4 12l8-8z"/>'
+};
+const D=(d,txt)=>{const c=d>0?'up':d<0?'dn':'fl';return `<span class="delta ${c}">${d>0?'▲':d<0?'▼':'■'} ${txt}</span>`};
+const sparks=[];
+function kpis(id,items){
+  const el=document.getElementById(id);
+  el.innerHTML=items.map((k,i)=>`<div class="card kpi"><div class="top"><div class="ico"><svg viewBox="0 0 24 24">${ICON[k.i]}</svg></div><div class="lbl">${k.l}</div></div><div class="val">${k.v}</div><div class="cmp">${k.d||''}<span>${k.c||''}</span></div>${k.sp?`<div class="spark"><canvas id="${id}-sp${i}"></canvas></div>`:''}</div>`).join('');
+  items.forEach((k,i)=>{if(!k.sp)return;const cv=document.getElementById(`${id}-sp${i}`);const ctx=cv.getContext('2d');const col=k.neg?css('--bad'):css('--mb');const gr=ctx.createLinearGradient(0,0,0,40);gr.addColorStop(0,col+'33');gr.addColorStop(1,col+'00');
+    sparks.push(new Chart(cv,{type:'line',data:{labels:k.sp.map((_,j)=>j),datasets:[{data:k.sp,borderColor:col,backgroundColor:gr,fill:true,tension:.4,borderWidth:2,pointRadius:0}]},options:{maintainAspectRatio:false,animation:STATIC?false:{duration:900},plugins:{tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false}}}}))});
+}
+
+Chart.defaults.font.family="Inter, system-ui, sans-serif";Chart.defaults.font.size=11;Chart.defaults.color=css('--tx3');
+Chart.defaults.plugins.legend.display=false;if(STATIC)Chart.defaults.animation=false;
+Object.assign(Chart.defaults.plugins.tooltip,{backgroundColor:'#0b1626',padding:10,cornerRadius:8,titleFont:{weight:'700'},boxPadding:4,usePointStyle:true});
+Chart.defaults.elements.line.borderWidth=2;Chart.defaults.elements.point.radius=0;Chart.defaults.elements.point.hoverRadius=5;Chart.defaults.elements.point.hoverBorderWidth=2;Chart.defaults.elements.point.hoverBorderColor='#fff';
+Chart.defaults.elements.bar.borderRadius=6;Chart.defaults.elements.arc.borderRadius=4;
+const grid={color:'rgba(11,22,38,.05)',drawTicks:false},nogrid={display:false},bord={display:false};
+const legend=(id,items)=>document.getElementById(id).innerHTML=items.map(g=>`<span><i class="dot" style="background:${g.c}"></i>${g.n}</span>`).join('');
+const charts={};
+const mk=(id,cfg)=>{if(charts[id])charts[id].destroy();charts[id]=new Chart(document.getElementById(id),cfg);return charts[id]};
+const area=(id,col)=>{const ctx=document.getElementById(id).getContext('2d');const g=ctx.createLinearGradient(0,0,0,300);g.addColorStop(0,col+'40');g.addColorStop(1,col+'00');return g};
+
+/* ---------- RESUMEN ---------- */
+const weeks=Array.from({length:12},(_,i)=>{const d=new Date(2026,6,27+i*7);return d.toLocaleDateString('es-AR',{day:'numeric',month:'short'})});
+const health={lor:[68,67,68,66,67,65,66,67,65,64,64,64],yac:[69,70,70,71,70,71,72,71,71,72,71,71],med:[66,66,65,66,67,66,66,65,66,67,66,66],gol:[60,61,60,59,60,61,60,61,62,61,62,61]};
+const idx={lor:64,yac:71,med:66,gol:61};
+document.getElementById('hero-rank').innerHTML=[...G].sort((a,b)=>idx[b.k]-idx[a.k]).map(g=>`<div class="r ${g.k==='lor'?'me':''}"><span>${g.s}</span><div class="bar"><i data-w="${idx[g.k]}" style="width:0;background:${g.k==='lor'?'#7cc1f3':g.c}"></i></div><b>${idx[g.k]}</b></div>`).join('');
+kpis('hero-kpis',[
+  {i:'msg',l:'Share of voice',v:'31%',d:D(1,'2 pp'),c:'3.842 menciones',sp:[27,28,28,29,28,30,29,31,30,31]},
+  {i:'pin',l:'Pedidos "cómo llegar"',v:'9.124',d:D(-1,'8%'),c:'vs 30 días previos',sp:[1010,985,1040,990,1012,968,941,920,905,884,872,861],neg:1},
+  {i:'star',l:'Rating promedio Google',v:'4,3<small>★</small>',d:D(0,'líder 4,5'),c:'Yacopini',sp:[4.4,4.4,4.35,4.35,4.3,4.32,4.3,4.28,4.3,4.3]},
+  {i:'spark',l:'Visibilidad en IA',v:'38%',d:D(-1,'19 pp'),c:'debajo de Yacopini',sp:[33,34,34,36,35,37,36,38,37,38]}
+]);
+legend('lg-health',G);
+mk('ch-health',{type:'line',data:{labels:weeks,datasets:G.map(g=>({label:g.n,data:health[g.k],borderColor:g.c,backgroundColor:g.k==='lor'?area('ch-health',g.c):g.c,fill:g.k==='lor',borderWidth:g.k==='lor'?3:2,tension:.35,pointBackgroundColor:g.c}))},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},scales:{y:{min:50,max:80,grid,border:bord,ticks:{padding:8}},x:{grid:nogrid,border:bord,ticks:{padding:8}}}}});
+const comp=[['lor',3842,12,4.3,412,38,64],['yac',4410,21,4.5,538,57,71],['med',1520,15,4.4,176,29,66],['gol',890,6,4.2,94,21,61]];
+document.getElementById('tb-comp').innerHTML=comp.map(r=>{const g=gk(r[0]);return `<tr class="${r[0]==='lor'?'own':''}"><td><span class="gname"><i class="dot" style="background:${g.c}"></i>${g.n}</span></td><td style="color:var(--tx2)">${g.brands}</td><td class="num">${fmt(r[1])}</td><td class="num"><span class="tag ${r[2]>=15?'good':r[2]>=10?'neu':'warn'}">+${r[2]}</span></td><td class="num">${r[3].toFixed(1).replace('.',',')}★</td><td class="num">${r[4]}</td><td class="num"><div class="mini"><div class="b"><i style="width:${r[5]}%;background:${g.c}"></i></div>${r[5]}%</div></td><td class="num"><span class="idx" style="background:${g.c}1f;color:${g.k==='lor'?'var(--mb-dark)':'var(--ink)'}">${r[6]}</span></td></tr>`}).join('');
+
+/* ---------- SOCIAL ---------- */
+const days=Array.from({length:30},(_,i)=>{const d=new Date(2026,8,15+i);return d.toLocaleDateString('es-AR',{day:'numeric',month:'short'})});
+const brandMult={todas:{lor:1,yac:1,med:1,gol:1},ford:{lor:.24,yac:0,med:0,gol:1},fiat:{lor:.28,yac:0,med:0,gol:0},stellantis:{lor:.18,yac:0,med:0,gol:0},jeep:{lor:.14,yac:0,med:0,gol:0},chinas:{lor:.16,yac:.12,med:0,gol:0}};
+const brandComp={ford:['lor','gol'],fiat:['lor'],stellantis:['lor'],jeep:['lor'],chinas:['lor','yac'],todas:['lor','yac','med','gol']};
+const base={lor:128,yac:147,med:51,gol:30},target={lor:3842,yac:4410,med:1520,gol:890};
+const series={};
+for(const g of G){const raw=days.map((_,i)=>base[g.k]*(0.7+R()*0.6)*(i%7===5||i%7===6?0.75:1)*(g.k==='lor'&&i>=24&&i<=26?1.6:1));const f=target[g.k]/raw.reduce((a,b)=>a+b,0);series[g.k]=raw.map(v=>Math.round(v*f));series[g.k][29]+=target[g.k]-series[g.k].reduce((a,b)=>a+b,0)}
+const sentData={todas:{lor:[36,40,24],yac:[45,39,16],med:[41,42,17],gol:[33,40,27]},ford:{lor:[31,40,29],gol:[33,40,27]},fiat:{lor:[42,41,17]},stellantis:{lor:[37,43,20]},jeep:{lor:[29,36,35]},chinas:{lor:[54,35,11],yac:[51,37,12]}};
+const topics={
+  todas:[['Precio y financiación',812,8],['Usados y permuta',633,5],['Plan de ahorro',604,-31],['Posventa / service',566,-18],['Atención del vendedor',498,22],['Autos chinos (BAIC, Leap)',388,41],['Demoras de entrega',341,-46]],
+  ford:[['Ranger / Maverick',312,18],['Turnos de service',204,-37],['Precio y financiación',176,4],['Nuevo local Godoy Cruz',122,52]],
+  fiat:[['Cronos precio',401,6],['Plan de ahorro',388,-34],['Titano',121,24],['Posventa',96,-12]],
+  stellantis:[['Peugeot 208 / 2008',284,21],['Citroën C3 Aircross',131,9],['Service',112,-21]],
+  jeep:[['Demoras de entrega',188,-58],['Chacras Park nuevo local',141,47],['Commander / Compass',122,14],['RAM pick-ups',89,19]],
+  chinas:[['BAIC precio y equipamiento',246,48],['LeapMotor eléctricos',138,36],['Repuestos y garantía',96,-22]]};
+const feedAll=[
+  {b:'jeep',s:'neg',src:'Facebook · Compra-venta autos Mendoza',t:'Hace 3 meses que espero el Compass y nadie me da fecha. ¿A alguien más le pasa con Lorenzo?'},
+  {b:'chinas',s:'pos',src:'Instagram · comentario',t:'Fui a ver el BAIC X55 a Godoy Cruz, muy bien atendido y el equipamiento por esa plata no tiene competencia.'},
+  {b:'ford',s:'neg',src:'Reseña de Google · Ford Godoy Cruz',t:'El local nuevo es hermoso pero conseguir turno de service es imposible. Tres semanas de espera.'},
+  {b:'fiat',s:'neu',src:'Comentario en Los Andes',t:'¿Alguien sabe si conviene el plan de ahorro del Cronos o sacarlo financiado? En Lorenzo me dieron dos opciones distintas.'},
+  {b:'ford',s:'pos',src:'X · @usuario_mza',t:'Retiré la Ranger en Lorenzo, entrega impecable y el vendedor un genio.'},
+  {b:'stellantis',s:'pos',src:'TikTok · comentario',t:'El 208 que compré en Lorenzo San Rafael, cero problemas y el service rápido.'},
+  {b:'fiat',s:'neg',src:'Facebook · Autoahorristas Mendoza',t:'Me aumentó otra vez la cuota del plan y nadie me explica por qué.'},
+];
+const SC={pos:['good','Positivo','#16834e'],neg:['bad','Negativo','#c23a2c'],neu:['neu','Neutro','#8f9ab0']};
+function renderSocial(b){
+  const keys=brandComp[b];const gs=G.filter(g=>keys.includes(g.k));
+  legend('lg-ment',gs);
+  mk('ch-ment',{type:'line',data:{labels:days,datasets:gs.map(g=>({label:g.n,data:series[g.k].map(v=>Math.round(v*brandMult[b][g.k])),borderColor:g.c,backgroundColor:g.k==='lor'?area('ch-ment',g.c):g.c,fill:g.k==='lor',borderWidth:g.k==='lor'?3:2,tension:.35,pointBackgroundColor:g.c}))},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},scales:{y:{beginAtZero:true,grid,border:bord,ticks:{padding:8}},x:{grid:nogrid,border:bord,ticks:{maxTicksLimit:8,padding:8}}}}});
+  const sd=sentData[b];const sk=Object.keys(sd);
+  mk('ch-sent',{type:'bar',data:{labels:sk.map(k=>gk(k).s),datasets:[
+    {label:'Positivo',data:sk.map(k=>sd[k][0]),backgroundColor:'#2fa36b'},{label:'Neutro',data:sk.map(k=>sd[k][1]),backgroundColor:'#d3d9e2'},{label:'Negativo',data:sk.map(k=>sd[k][2]),backgroundColor:'#d9534a'}]},
+    options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:9,boxHeight:9,usePointStyle:true,pointStyle:'circle',padding:14}},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}%`}}},datasets:{bar:{borderColor:'#fff',borderWidth:{right:2},borderRadius:0,borderSkipped:false,barPercentage:.62}},scales:{x:{stacked:true,max:100,grid,border:bord,ticks:{callback:v=>v+'%'}},y:{stacked:true,grid:nogrid,border:bord,ticks:{color:css('--tx2'),font:{weight:'600'}}}}}});
+  const tot=Math.round(series.lor.reduce((a,c)=>a+c,0)*brandMult[b].lor);
+  const lr=sd.lor;const net=lr[0]-lr[2];
+  const sp=series.lor.map(v=>v*brandMult[b].lor);const sp7=[];for(let i=0;i<30;i+=3)sp7.push(sp.slice(i,i+3).reduce((a,c)=>a+c,0));
+  kpis('soc-kpis',[
+    {i:'msg',l:'Menciones de Lorenzo',v:fmt(tot),d:D(1,'9%'),c:'vs período anterior',sp:sp7},
+    {i:'heart',l:'Sentimiento neto',v:(net>0?'+':'')+net,d:`<span class="delta up">${lr[0]}% pos.</span><span class="delta dn">${lr[2]}% neg.</span>`},
+    {i:'users',l:'Alcance estimado',v:(tot*318/1e6).toFixed(2).replace('.',',')+' M',c:'personas en Mendoza'},
+    {i:'alert',l:'Sin respuesta de la marca',v:fmt(Math.round(tot*0.06)),c:'preguntas o quejas abiertas'}
+  ]);
+  document.getElementById('tb-topics').innerHTML=topics[b].map(t=>{const w=Math.abs(t[2])/2;const col=t[2]>10?'#2fa36b':t[2]<-10?'#d9534a':'#a3abb9';return `<div class="topic" data-tip="${t[0]}: ${fmt(t[1])} menciones · sentimiento ${t[2]>0?'+':''}${t[2]}"><span>${t[0]}</span><span class="n">${fmt(t[1])}</span><div class="div"><i style="background:${col};${t[2]>=0?`left:50%;width:${w}%`:`right:50%;width:${w}%`}"></i></div></div>`}).join('');
+  const fd=b==='todas'?feedAll.slice(0,5):feedAll.filter(f=>f.b===b);
+  document.getElementById('feed').innerHTML=fd.map(f=>{const sc=SC[f.s];return `<div class="it"><div class="av" style="background:${sc[2]}">${f.src[0]}</div><div><div class="meta"><span class="tag ${sc[0]}">${sc[1]}</span><b>${f.src}</b></div><p>“${f.t}”</p></div></div>`}).join('');
+}
+mk('ch-src',{type:'doughnut',data:{labels:['Grupos de Facebook','Instagram','Reseñas de Google','Comentarios en medios','X','TikTok'],datasets:[{data:[31,24,18,13,8,6],backgroundColor:['#0f4f86','#1c73b8','#4f9bd6','#86bce6','#b9d8f1','#dbeaf7'],borderColor:'#fff',borderWidth:3,hoverOffset:6}]},options:{maintainAspectRatio:false,cutout:'66%',plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:9,boxHeight:9,usePointStyle:true,pointStyle:'circle',padding:10,font:{size:10.5}}},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw}%`}}}}});
+document.getElementById('f-brand').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;document.querySelectorAll('#f-brand button').forEach(x=>x.classList.toggle('on',x===b));renderSocial(b.dataset.b)});
+
+/* ---------- REPUTACION ---------- */
+kpis('rep-kpis',[
+  {i:'star',l:'Rating promedio Lorenzo',v:'4,3<small>★</small>',c:'Yacopini 4,5 · Mediterráneo 4,4 · Goldstein 4,2'},
+  {i:'msg',l:'Reseñas nuevas (30 días)',v:'412',d:D(1,'11%'),c:'68 negativas (≤2★)',sp:[88,92,95,90,101,97,104,99,108,112]},
+  {i:'reply',l:'Reseñas respondidas',v:'46%',d:D(-1,'Yacopini 81%'),c:''},
+  {i:'clock',l:'Tiempo medio de respuesta',v:'4,8 <small>días</small>',c:'Meta sugerida: menos de 24 h'}
+]);
+const rev=[
+  ['Fiat · Godoy Cruz','lor',4.4,1840,61,52],['Ford · Godoy Cruz','lor',4.1,960,48,31],['Peugeot · Ciudad','lor',4.5,1210,44,58],['Citroën / DS · Ciudad','lor',4.3,520,22,40],
+  ['Jeep · RAM · Chacras Park','lor',3.9,310,39,22],['BAIC · Godoy Cruz','lor',4.7,180,33,71],['Lorenzo · San Rafael','lor',4.4,1530,52,49],['Autoferia (usados)','lor',4.0,690,41,35],
+  ['Toyota Yacopini · Godoy Cruz','yac',4.6,3120,96,84],['VW Yacopini Süd · Godoy Cruz','yac',4.4,1980,71,79],['Chevrolet Yacopini Motors','yac',4.3,1410,58,77],['BYD Godoy Cruz','yac',4.7,260,47,90],
+  ['Renault Mediterráneo · Godoy Cruz','med',4.4,2240,88,63],['Renault Mediterráneo · San Rafael','med',4.5,640,24,58],['Ford Goldstein · Guaymallén','gol',4.2,1320,57,44]];
+const rs=[...rev].sort((a,b)=>b[2]-a[2]);
+legend('lg-rating',G.map(g=>({...g,n:g.s})));
+mk('ch-rating',{type:'bar',data:{labels:rs.map(r=>r[0]),datasets:[{label:'Rating',data:rs.map(r=>r[2]),backgroundColor:rs.map(r=>gk(r[1]).c)}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:c=>` ${c.raw.toFixed(1).replace('.',',')}★ · ${gk(rs[c.dataIndex][1]).n}`}}},scales:{x:{min:3.5,max:5,grid,border:bord},y:{grid:nogrid,border:bord,ticks:{font:{size:10.5},color:css('--tx2')}}},datasets:{bar:{barPercentage:.72,categoryPercentage:.9,borderRadius:5}}}});
+mk('ch-neg',{type:'bar',data:{labels:['Turnos de service','Demoras de entrega','Plan de ahorro / cuotas','Falta de respuesta','Precio distinto al cotizado','Trato del vendedor','Repuestos'],datasets:[{label:'Reseñas',data:[19,15,12,9,6,4,3],backgroundColor:c=>{const x=c.chart.ctx.createLinearGradient(0,0,c.chart.width,0);x.addColorStop(0,'#4f9bd6');x.addColorStop(1,'#0f4f86');return x}}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:c=>` ${c.raw} reseñas`}}},scales:{x:{grid,border:bord},y:{grid:nogrid,border:bord,ticks:{color:css('--tx2'),font:{size:11.5}}}},datasets:{bar:{barPercentage:.62}}}});
+document.getElementById('tb-rev').innerHTML=rev.map(r=>{const g=gk(r[1]);const st=r[2]>=4.4&&r[5]>=50?['good','Bien']:r[2]<4.1||r[5]<30?['bad','Atender']:['warn','Mejorable'];return `<tr class="${r[1]==='lor'?'own':''}"><td style="font-weight:600;color:var(--ink)">${r[0]}</td><td><i class="dot" style="background:${g.c}"></i>${g.s}</td><td class="num"><b>${r[2].toFixed(1).replace('.',',')}</b> <span style="color:#f2b01e">★</span></td><td class="num">${fmt(r[3])}</td><td class="num">${r[4]}</td><td class="num"><div class="mini"><div class="b"><i style="width:${r[5]}%;background:${r[5]>=60?'#2fa36b':r[5]>=40?'#e0a23a':'#d9534a'}"></i></div>${r[5]}%</div></td><td><span class="tag ${st[0]}">${st[1]}</span></td></tr>`}).join('');
+
+/* ---------- PRESENCIA ---------- */
+const sucs=[['Todas las sucursales',1],['Fiat · Godoy Cruz',.2],['Ford · Godoy Cruz',.17],['Peugeot · Ciudad',.14],['Citroën / DS · Ciudad',.07],['Jeep · RAM · Chacras Park',.1],['BAIC · Godoy Cruz',.08],['San Rafael',.16],['Autoferia (usados)',.08]];
+const sel=document.getElementById('f-suc');sel.innerHTML=sucs.map((x,i)=>`<option value="${i}">${x[0]}</option>`).join('');
+const wDir=[1010,985,1040,990,1012,968,941,920,905,884,872,861],wCall=[402,396,410,388,401,377,369,352,348,339,331,326];
+const heatBase=[[20,35,55,62,48,40,52,66,71,60,42,25],[22,38,57,60,50,42,55,64,69,58,40,22],[18,33,52,58,47,39,50,61,67,55,38,20],[21,36,58,63,51,43,56,68,74,63,45,26],[26,42,63,70,58,50,63,77,85,79,61,38],[45,68,88,95,90,72,58,40,0,0,0,0]];
+function renderPres(i){
+  const m=sucs[i][1];
+  kpis('pres-kpis',[
+    {i:'eye',l:'Vistas del perfil',v:fmt(Math.round(84210*m)),d:D(-1,'5%'),c:'vs 30 días previos',sp:[21,22,21.5,21,20.8,20.6,20.2,20.1,19.9,19.8],neg:1},
+    {i:'pin',l:'Pedidos "cómo llegar"',v:fmt(Math.round(9124*m)),d:D(-1,'8%'),c:'vs 30 días previos',sp:wDir,neg:1},
+    {i:'phone',l:'Llamadas',v:fmt(Math.round(3410*m)),d:D(-1,'4%'),c:'vs 30 días previos',sp:wCall,neg:1},
+    {i:'click',l:'Clics al sitio web',v:fmt(Math.round(5870*m)),d:D(1,'3%'),c:'vs 30 días previos',sp:[1380,1400,1390,1420,1410,1440,1450,1460,1470,1480]}
+  ]);
+  mk('ch-visit',{type:'line',data:{labels:weeks,datasets:[{label:'Cómo llegar',data:wDir.map(v=>Math.round(v*m*2.1)),borderColor:css('--c-lor'),backgroundColor:area('ch-visit',css('--c-lor')),fill:true,tension:.35,borderWidth:3,pointBackgroundColor:css('--c-lor')},{label:'Llamadas',data:wCall.map(v=>Math.round(v*m*2.1)),borderColor:css('--c-yac'),tension:.35,pointBackgroundColor:css('--c-yac')}]},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},scales:{y:{beginAtZero:true,grid,border:bord,ticks:{padding:8}},x:{grid:nogrid,border:bord,ticks:{padding:8}}}}});
+  const hd=['Lun','Mar','Mié','Jue','Vie','Sáb'];const hrs=['9','10','11','12','13','14','15','16','17','18','19','20'];
+  let h='<div></div>'+hrs.map(x=>`<div class="h">${x}</div>`).join('');
+  heatBase.forEach((row,di)=>{h+=`<div class="d">${hd[di]}</div>`+row.map((v,hi)=>{const vv=Math.min(100,Math.round(v*(0.85+((i*7+di*3+hi)%5)*0.06)));const a=vv===0?0:0.08+vv/100*0.92;return `<div class="c" data-tip="${hd[di]} ${hrs[hi]} h · ${vv===0?'cerrado':'índice '+vv}" style="background:${vv===0?'repeating-linear-gradient(45deg,#f1f3f7,#f1f3f7 4px,#e8ebf0 4px,#e8ebf0 8px)':`rgba(15,79,134,${a.toFixed(2)})`}"></div>`}).join('')});
+  document.getElementById('heat').innerHTML=h;
+}
+const sucRows=[['Fiat · Godoy Cruz',16840,1825,682,-6],['San Rafael',13470,1460,546,-2],['Ford · Godoy Cruz',14320,1551,580,-12],['Peugeot · Ciudad',11790,1277,477,-9],['Jeep · RAM · Chacras Park',8420,912,341,-15],['BAIC · Godoy Cruz',6740,730,273,24],['Autoferia (usados)',6740,730,273,-4],['Citroën / DS · Ciudad',5890,639,238,-11]];
+document.getElementById('tb-suc').innerHTML=sucRows.sort((a,b)=>b[2]-a[2]).map(r=>`<tr><td style="font-weight:600;color:var(--ink)">${r[0]}</td><td class="num">${fmt(r[1])}</td><td class="num"><b>${fmt(r[2])}</b></td><td class="num">${fmt(r[3])}</td><td class="num">${D(r[4]>0?1:-1,Math.abs(r[4])+'%')}</td></tr>`).join('');
+mk('ch-disc',{type:'doughnut',data:{labels:['Por categoría ("concesionaria cerca")','Por marca ("Fiat Mendoza")','Directa ("Lorenzo")'],datasets:[{data:[52,33,15],backgroundColor:['#0f4f86','#4f9bd6','#b9d8f1'],borderColor:'#fff',borderWidth:3,hoverOffset:6}]},options:{maintainAspectRatio:false,cutout:'66%',plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:9,boxHeight:9,usePointStyle:true,pointStyle:'circle',padding:10,font:{size:10.5}}},tooltip:{callbacks:{label:c=>` ${c.raw}%`}}}}});
+sel.addEventListener('change',e=>renderPres(+e.target.value));
+
+/* ---------- SEO / GEO ---------- */
+kpis('seo-kpis',[
+  {i:'spark',l:'Visibilidad en IA',v:'38%',c:'de 40 preguntas monitoreadas',sp:[33,34,34,36,35,37,36,38,37,38]},
+  {i:'search',l:'Keywords en el top 3 de Google',v:'14<small>/60</small>',d:D(1,'3'),c:'vs mes anterior'},
+  {i:'chart',l:'Tráfico orgánico estimado',v:'21,4k',d:D(-1,'6%'),c:'visitas por mes',sp:[23.1,22.9,22.8,22.4,22.6,22.1,21.9,21.7,21.5,21.4],neg:1},
+  {i:'tool',l:'Salud técnica del sitio',v:'71<small>/100</small>',c:'6 problemas críticos'}
+]);
+mk('ch-ai',{type:'bar',data:{labels:G.map(g=>g.s),datasets:[{label:'Visibilidad IA',data:[38,57,29,21],backgroundColor:G.map(g=>g.c)}]},options:{maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:c=>` ${c.raw}% de las respuestas`}}},scales:{y:{beginAtZero:true,max:100,grid,border:bord,ticks:{callback:v=>v+'%'}},x:{grid:nogrid,border:bord,ticks:{color:css('--tx2'),font:{weight:'600'}}}},datasets:{bar:{barPercentage:.58,borderRadius:8}}}});
+const ai=[
+  ['¿Dónde compro un Ford en Mendoza?','n','p','n','p','Goldstein'],
+  ['Mejor concesionaria de Fiat en Mendoza','y','y','p','y','—'],
+  ['¿Dónde hago el service de mi Peugeot?','p','n','n','p','Talleres multimarca'],
+  ['Concesionaria Jeep oficial en Mendoza','p','y','n','n','Yacopini (dato desactualizado)'],
+  ['¿Dónde ver autos chinos en Mendoza?','n','n','p','n','BYD Yacopini'],
+  ['Plan de ahorro Fiat, ¿cuál conviene?','n','p','n','n','Portales nacionales'],
+  ['Comprar 0 km en San Rafael','y','p','y','y','—'],
+  ['Mejor concesionaria de Mendoza','n','n','n','p','Yacopini, Mediterráneo']];
+const sym={y:'✓',n:'✗',p:'~'};
+document.getElementById('tb-ai').innerHTML=ai.map(r=>`<tr><td style="font-weight:600;color:var(--ink)">${r[0]}</td>${r.slice(1,5).map(v=>`<td class="num"><span class="ai ${v}">${sym[v]}</span></td>`).join('')}<td style="color:var(--tx2)">${r[5]}</td></tr>`).join('');
+const kw=[['concesionaria ford mendoza',1900,4,'Goldstein'],['fiat cronos precio mendoza',2400,2,'MercadoLibre'],['jeep mendoza',1300,6,'Yacopini (desact.)'],['peugeot 208 mendoza',1600,1,'Lorenzo'],['service peugeot mendoza',880,8,'Taller multimarca'],['autos chinos mendoza',1100,11,'BYD Yacopini'],['plan de ahorro fiat mendoza',1700,3,'Plan Óvalo'],['0km mendoza',3600,7,'MercadoLibre'],['baic mendoza',590,1,'Lorenzo'],['usados mendoza',6600,14,'MercadoLibre']];
+document.getElementById('tb-kw').innerHTML=kw.map(r=>`<tr><td style="font-weight:600;color:var(--ink)">${r[0]}</td><td class="num">${fmt(r[1])}</td><td class="num"><span class="pos tag ${r[2]<=3?'good':r[2]<=10?'warn':'bad'}">#${r[2]}</span></td><td class="num" style="color:${r[3]==='Lorenzo'?'var(--mb)':'var(--tx2)'};font-weight:${r[3]==='Lorenzo'?700:400}">${r[3]}</td></tr>`).join('');
+
+/* ---------- MERCADO ---------- */
+kpis('mkt-kpis',[
+  {i:'car',l:'Patentamientos 0 km (ene–sep)',v:'18.277',d:D(-1,'11,5%'),c:'interanual',sp:[3647,1720,1890,1729,1782,1993,1880,1840,1796],neg:1},
+  {i:'pie',l:'Cuota estimada Grupo Lorenzo',v:'24,6%',d:D(-1,'1,1 pp'),c:'vs 2025'},
+  {i:'bolt',l:'Cuota de marcas chinas',v:'9,2%',d:D(1,'5,4 pp'),c:'interanual',sp:[3.8,4.4,5.1,5.9,6.6,7.4,8.1,8.7,9.2]},
+  {i:'chart',l:'Motos 0 km',v:'+24%',d:D(1,'oportunidad'),c:'para Motoki y Voge'}
+]);
+const months=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep'];
+mk('ch-pat',{type:'bar',data:{labels:months,datasets:[{label:'2026',data:[3647,1720,1890,1729,1782,1993,1880,1840,1796],backgroundColor:css('--c-lor')},{label:'2025',data:[3820,1910,2140,2020,2364,2301,2110,2030,1950],backgroundColor:'#d3d9e2'}]},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${fmt(c.raw)} unidades`}}},scales:{y:{beginAtZero:true,grid,border:bord,ticks:{padding:8}},x:{grid:nogrid,border:bord}},datasets:{bar:{borderColor:'#fff',borderWidth:{left:2,right:2},borderSkipped:'bottom',categoryPercentage:.66}}}});
+mk('ch-share',{type:'doughnut',data:{labels:['Grupo Lorenzo','Grupo Yacopini','Mediterráneo','Goldstein','Otros'],datasets:[{data:[24.6,38.1,11.3,3.9,22.1],backgroundColor:[...G.map(g=>g.c),css('--c-otr')],borderColor:'#fff',borderWidth:3,hoverOffset:6}]},options:{maintainAspectRatio:false,cutout:'64%',plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:9,boxHeight:9,usePointStyle:true,pointStyle:'circle',padding:10}},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw}%`}}}}});
+const br=[['Toyota',3610,'yac'],['Fiat',2380,'lor'],['Volkswagen',2190,'yac'],['Peugeot',1720,'lor'],['Renault',2060,'med'],['Chevrolet',1340,'yac'],['Ford',1410,'lor/gol'],['BYD',620,'yac'],['Citroën',540,'lor'],['Jeep',510,'lor'],['Nissan',430,'yac'],['BAIC',260,'lor']].sort((a,b)=>b[1]-a[1]);
+mk('ch-brands',{type:'bar',data:{labels:br.map(b=>b[0]),datasets:[{label:'Unidades',data:br.map(b=>b[1]),backgroundColor:br.map(b=>b[2].startsWith('lor')?css('--c-lor'):'#d3d9e2')}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{tooltip:{callbacks:{label:c=>{const k=br[c.dataIndex][2];return ` ${fmt(c.raw)} unidades · ${k==='lor/gol'?'Lorenzo y Goldstein':gk(k).n}`}}}},scales:{x:{grid,border:bord},y:{grid:nogrid,border:bord,ticks:{color:css('--tx2'),font:{weight:'600'}}}},datasets:{bar:{barPercentage:.7,borderRadius:5}}}});
+const used=[['Fiat Cronos 1.3',412,15900,-2.1],['Toyota Hilux SRV',268,38500,-0.8],['Peugeot 208 Allure',301,17400,-1.6],['VW Amarok V6',144,41200,0.4],['Ford Ranger XLT',189,33800,-1.2],['Jeep Compass Sport',97,27600,-3.4],['Renault Sandero',226,13200,-1.9]];
+document.getElementById('tb-used').innerHTML=used.map(u=>`<tr><td style="font-weight:600;color:var(--ink)">${u[0]}</td><td class="num">${u[1]}</td><td class="num">US$ ${fmt(u[2])}</td><td class="num">${D(u[3]>=0?1:-1,Math.abs(u[3]).toFixed(1).replace('.',',')+'%')}</td></tr>`).join('');
+
+/* ---------- tabs, gauge, tooltip ---------- */
+function animateHero(){
+  const arc=document.getElementById('gauge-arc');arc.style.strokeDashoffset=395.8;requestAnimationFrame(()=>requestAnimationFrame(()=>arc.style.strokeDashoffset=395.8*(1-.64)));
+  document.querySelectorAll('#hero-rank i').forEach(el=>{el.style.width=0;setTimeout(()=>el.style.width=el.dataset.w+'%',60)});
+  const b=document.querySelector('.gv b[data-count]');const t0=performance.now();const end=+b.dataset.count;
+  const step=t=>{const p=STATIC?1:Math.min(1,(t-t0)/1100);b.textContent=Math.round(end*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step);
+}
+function show(t){
+  document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
+  document.querySelectorAll('section.tab').forEach(s=>s.classList.toggle('on',s.id===t));
+  document.getElementById('ttl').textContent=document.getElementById(t).dataset.title;
+  Object.values(charts).concat(sparks).forEach(c=>{c.resize();c.reset();c.update()});
+  if(t==='resumen')animateHero();
+  window.scrollTo({top:0});
+}
+document.getElementById('tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;show(b.dataset.t);history.replaceState(null,'','#'+b.dataset.t)});
+const tt=document.getElementById('tt');
+document.addEventListener('mousemove',e=>{const c=e.target.closest('[data-tip]');if(!c){tt.style.opacity=0;return}tt.textContent=c.dataset.tip;tt.style.left=(e.clientX+14)+'px';tt.style.top=(e.clientY+14)+'px';tt.style.opacity=1});
+renderSocial('todas');renderPres(0);
+const h0=location.hash.slice(1);
+if(h0&&document.getElementById(h0)&&h0!=='resumen')show(h0);else animateHero();
+</script>
+</body>
+</html>
