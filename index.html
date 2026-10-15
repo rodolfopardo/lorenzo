@@ -207,6 +207,40 @@ footer img{height:15px;opacity:.6}
   footer{padding:0 16px 24px}
 }
 @media(max-width:560px){.g4{grid-template-columns:1fr}.gauge-wrap{flex-direction:column;align-items:stretch}.gauge{margin:0 auto}.topic{grid-template-columns:1fr 44px 80px}}
+
+/* mes a mes */
+.mm-tbl td,.mm-tbl th{padding:10px 9px}
+.mm-tbl td.cur{background:var(--mb-soft);font-weight:800;color:var(--ink)}
+.mm-tbl th.cur{color:var(--mb)}
+.mm-tbl tbody tr{cursor:pointer}
+.mm-tbl tbody tr.sel td{background:#eef4fb}
+.mm-tbl tbody tr.sel td:first-child{box-shadow:inset 3px 0 0 var(--mb)}
+.mm-tbl .ind{font-weight:600;color:var(--ink);white-space:nowrap}
+.mm-tbl .ind small{display:block;font-weight:500;color:var(--tx3);font-size:11px}
+.mm-spark{width:90px;height:28px;display:block}
+.tl{position:relative;padding-left:22px}
+.tl:before{content:'';position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--mb),#c9d9ec)}
+.tl .ev{position:relative;padding:0 0 16px}
+.tl .ev:last-child{padding-bottom:0}
+.tl .ev:before{content:attr(data-n);position:absolute;left:-22px;top:0;width:16px;height:16px;border-radius:50%;background:var(--mb);color:#fff;font-size:9.5px;font-weight:800;display:grid;place-items:center;box-shadow:0 0 0 3px #fff}
+.tl .ev .when{font-size:11px;font-weight:700;color:var(--mb);text-transform:uppercase;letter-spacing:.5px}
+.tl .ev b{display:block;color:var(--ink);font-size:13px;margin:1px 0 2px}
+.tl .ev p{font-size:12px;color:var(--tx2)}
+.impact{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.imp{border:1px solid var(--bd);border-radius:14px;padding:16px;background:#fff;display:flex;flex-direction:column;gap:8px;transition:.2s}
+.imp:hover{box-shadow:var(--sh-h);transform:translateY(-2px)}
+.imp .h{display:flex;align-items:center;gap:8px}
+.imp .h .n{width:22px;height:22px;border-radius:50%;background:var(--mb);color:#fff;font-size:11px;font-weight:800;display:grid;place-items:center;flex:none}
+.imp .h b{font-size:13px;color:var(--ink);line-height:1.3}
+.imp .h .tag{margin-left:auto}
+.imp .kpi-l{font-size:11.5px;color:var(--tx3);font-weight:600}
+.imp .ba{display:flex;align-items:baseline;gap:10px}
+.imp .ba .bf{font-size:16px;font-weight:700;color:var(--tx3);text-decoration:line-through;text-decoration-color:rgba(143,154,176,.5)}
+.imp .ba .ar{color:var(--tx3)}
+.imp .ba .af{font-size:24px;font-weight:800;color:var(--ink);letter-spacing:-.5px}
+.imp p{font-size:12px;color:var(--tx2)}
+@media(max-width:1180px){.impact{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.impact{grid-template-columns:1fr}}
 html.static *{animation:none!important;transition:none!important}
 .grid>*,.hero>*{min-width:0}
 @media(max-width:980px){.main{width:100%}.content{overflow-x:hidden}.tb .right{margin-left:0}}
@@ -220,6 +254,7 @@ html.static *{animation:none!important;transition:none!important}
   <div class="navlbl">Tablero</div>
   <nav id="tabs">
     <button data-t="resumen" class="on"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>Resumen<span class="ct">4</span></button>
+    <button data-t="mensual"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="m8 16 2.5-2.5 2 2L16 12"/></svg>Mes a mes</button>
     <button data-t="social"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 11h7M8.5 14.5h4"/></svg>Escucha social</button>
     <button data-t="reputacion"><svg viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>Reputación Google</button>
     <button data-t="presencia"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Presencia en Maps</button>
@@ -282,6 +317,44 @@ html.static *{animation:none!important;transition:none!important}
       <thead><tr><th>Grupo</th><th>Marcas principales</th><th class="num">Menciones</th><th class="num">Sent. neto</th><th class="num">Rating</th><th class="num">Reseñas 30d</th><th class="num">Visibilidad IA</th><th class="num">Índice</th></tr></thead>
       <tbody id="tb-comp"></tbody>
     </table></div>
+  </div>
+</section>
+
+<!-- ================= MES A MES ================= -->
+<section class="tab" id="mensual" data-title="Mes a mes · ¿Funcionaron las acciones?">
+  <p class="lead">Cómo evoluciona cada indicador mes a mes y qué pasó después de cada acción. Sirve para medir si una iniciativa dio resultado y para compararse contra el líder del mercado.</p>
+  <div class="filters">
+    <label>Comparar</label>
+    <div class="seg" id="f-cmp"><button class="on" data-c="prev">Septiembre vs agosto</button><button data-c="base">Septiembre vs abril (inicio)</button></div>
+  </div>
+  <div class="grid g4" id="mm-kpis"></div>
+
+  <div class="grid g3 mt">
+    <div class="card span2">
+      <div class="card-hd"><div><h3 id="mm-ch-ttl">Indicador</h3><div class="cap">Lorenzo vs. Grupo Yacopini (líder) · las líneas punteadas marcan cada acción</div></div>
+      <select id="f-ind" style="margin-left:auto"></select></div>
+      <div class="legend"><span><i class="dot" style="background:var(--c-lor)"></i>Grupo Lorenzo</span><span><i class="dot" style="background:var(--c-yac)"></i>Grupo Yacopini</span></div>
+      <div class="chart lg"><canvas id="ch-mm"></canvas></div>
+    </div>
+    <div class="card">
+      <h3>Acciones implementadas</h3>
+      <div class="cap">Registro de iniciativas del grupo</div>
+      <div class="tl" id="mm-tl"></div>
+    </div>
+  </div>
+
+  <div class="card mt">
+    <h3>Tablero mensual de indicadores</h3>
+    <div class="cap">Hacé clic en una fila para verla en el gráfico · la variación compara el último mes con el período elegido</div>
+    <div class="tbl-wrap"><table class="mm-tbl">
+      <thead id="mm-th"></thead><tbody id="mm-tb"></tbody>
+    </table></div>
+  </div>
+
+  <div class="card mt">
+    <h3>Impacto de cada acción</h3>
+    <div class="cap">Valor del indicador objetivo el mes anterior a la acción frente a septiembre</div>
+    <div class="impact" id="mm-imp"></div>
   </div>
 </section>
 
@@ -534,6 +607,52 @@ legend('lg-health',G);
 mk('ch-health',{type:'line',data:{labels:weeks,datasets:G.map(g=>({label:g.n,data:health[g.k],borderColor:g.c,backgroundColor:g.k==='lor'?area('ch-health',g.c):g.c,fill:g.k==='lor',borderWidth:g.k==='lor'?3:2,tension:.35,pointBackgroundColor:g.c}))},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},scales:{y:{min:50,max:80,grid,border:bord,ticks:{padding:8}},x:{grid:nogrid,border:bord,ticks:{padding:8}}}}});
 const comp=[['lor',3842,12,4.3,412,38,64],['yac',4410,21,4.5,538,57,71],['med',1520,15,4.4,176,29,66],['gol',890,6,4.2,94,21,61]];
 document.getElementById('tb-comp').innerHTML=comp.map(r=>{const g=gk(r[0]);return `<tr class="${r[0]==='lor'?'own':''}"><td><span class="gname"><i class="dot" style="background:${g.c}"></i>${g.n}</span></td><td style="color:var(--tx2)">${g.brands}</td><td class="num">${fmt(r[1])}</td><td class="num"><span class="tag ${r[2]>=15?'good':r[2]>=10?'neu':'warn'}">+${r[2]}</span></td><td class="num">${r[3].toFixed(1).replace('.',',')}★</td><td class="num">${r[4]}</td><td class="num"><div class="mini"><div class="b"><i style="width:${r[5]}%;background:${g.c}"></i></div>${r[5]}%</div></td><td class="num"><span class="idx" style="background:${g.c}1f;color:${g.k==='lor'?'var(--mb-dark)':'var(--ink)'}">${r[6]}</span></td></tr>`}).join('');
+
+/* ---------- MES A MES ---------- */
+const MM=['Abr','May','Jun','Jul','Ago','Sep'];
+const IND=[
+  {k:'idx',n:'Índice de Salud de Marca',u:'',d:0,good:1,l:[68,67,66,67,67,64],y:[69,70,71,71,71,71]},
+  {k:'men',n:'Menciones',sub:'escucha social',u:'',d:0,good:1,l:[3120,3260,3390,3410,3530,3842],y:[4020,4110,4180,4250,4330,4410]},
+  {k:'sen',n:'Sentimiento neto',sub:'positivas − negativas',u:'',d:0,good:1,l:[9,7,10,14,15,12],y:[19,20,20,21,21,21],sg:1},
+  {k:'rat',n:'Rating promedio Google',u:'★',d:1,good:1,l:[4.2,4.2,4.2,4.3,4.3,4.3],y:[4.5,4.5,4.5,4.5,4.5,4.5]},
+  {k:'rsp',n:'Reseñas respondidas',u:'%',d:0,good:1,l:[18,21,24,38,44,46],y:[78,79,80,80,81,81]},
+  {k:'tre',n:'Tiempo de respuesta',sub:'días promedio',u:' d',d:1,good:-1,l:[9.5,9.1,8.7,6.2,5.1,4.8],y:[1.6,1.5,1.5,1.4,1.4,1.3]},
+  {k:'dir',n:'Pedidos "cómo llegar"',sub:'Google Maps',u:'',d:0,good:1,l:[9620,9480,9710,9900,9920,9124],y:[11800,11650,11900,12050,12100,12240]},
+  {k:'cal',n:'Llamadas desde Google',u:'',d:0,good:1,l:[3610,3580,3640,3560,3550,3410],y:[4210,4180,4250,4260,4300,4330]},
+  {k:'ia',n:'Visibilidad en IA',u:'%',d:0,good:1,l:[24,25,27,31,36,38],y:[52,53,54,55,56,57]},
+  {k:'kw',n:'Keywords en top 3',sub:'de 60 monitoreadas',u:'',d:0,good:1,l:[8,8,9,10,11,14],y:[19,19,20,20,21,21]},
+  {k:'cuo',n:'Cuota de mercado',sub:'patentamientos',u:'%',d:1,good:1,l:[25.8,25.5,25.1,24.9,24.8,24.6],y:[37.2,37.4,37.6,37.8,38.0,38.1]}
+];
+const ACT=[
+  {m:1,when:'1 de mayo',n:'Toma de Jeep · RAM y apertura en Chacras Park',p:'Nueva representación y salón de marca.',kpi:'men',res:['good','Funcionó'],txt:'Las menciones crecieron todos los meses desde la apertura, aunque en septiembre subieron las quejas por demoras de entrega.'},
+  {m:2,when:'Junio',n:'Lanzamiento comercial BAIC by Lorenzo',p:'Campaña en redes y medios locales.',kpi:'sen',res:['good','Funcionó'],txt:'BAIC es la marca con mejor sentimiento del grupo (+43) y empuja el promedio hacia arriba.'},
+  {m:3,when:'1 de julio',n:'Protocolo de respuesta de reseñas en 48 h',p:'Responsable por sucursal y respuestas modelo.',kpi:'rsp',res:['good','Funcionó'],txt:'La tasa de respuesta se duplicó y el tiempo bajó de 8,7 a 4,8 días. Todavía lejos del 81% de Yacopini.'},
+  {m:4,when:'10 de agosto',n:'Datos estructurados y preguntas frecuentes en la web',p:'Marcado AutoDealer por sucursal y páginas de plan de ahorro y financiación.',kpi:'ia',res:['good','Funcionó'],txt:'La visibilidad en IA pasó de 31% a 38% y se ganaron 4 keywords en el top 3.'},
+  {m:5,when:'1 de septiembre',n:'Turnos de service Ford online',p:'Agenda web para la sucursal de Godoy Cruz.',kpi:'dir',res:['warn','Sin efecto aún'],txt:'Las quejas por turnos de service siguen siendo el motivo número 1. Los pedidos de "cómo llegar" cayeron 8%: hay que revisar las fichas de Google.'}
+];
+let mmSel='ia',mmCmp='prev';
+const fv=(i,v)=>{const t=i.d?v.toFixed(i.d).replace('.',','):fmt(v);return (i.sg&&v>0?'+':'')+t+(i.u||'')};
+const dv=(i,a,b)=>{const pct=['%','★',' d'].includes(i.u)||i.sg||i.k==='idx'||i.k==='kw';const diff=b-a;const better=diff*i.good>0;const txt=pct?(diff>0?'+':'')+(i.d?diff.toFixed(i.d).replace('.',','):Math.round(diff))+(i.u==='%'?' pp':i.u===' d'?' d':i.u==='★'?'':' pts'):(diff>0?'+':'')+((diff/a)*100).toFixed(1).replace('.',',')+'%';return `<span class="delta ${diff===0?'fl':better?'up':'dn'}">${diff===0?'■ =':(diff>0?'▲ ':'▼ ')+txt.replace(/^[+-]/,'')}</span>`};
+const actLines={id:'actLines',afterDatasetsDraw(c){const{ctx,chartArea:a,scales:{x}}=c;ctx.save();ACT.forEach((e,j)=>{const X=x.getPixelForValue(e.m)-x.width/MM.length/2+ (x.width/MM.length)/2;const px=(x.getPixelForValue(e.m-1)+x.getPixelForValue(e.m))/2;ctx.strokeStyle='rgba(15,79,134,.35)';ctx.setLineDash([4,4]);ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(px,a.top+14);ctx.lineTo(px,a.bottom);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#1c73b8';ctx.beginPath();ctx.arc(px,a.top+7,8,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='800 9.5px Inter';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(j+1,px,a.top+7.5)});ctx.restore()}};
+function renderMM(){
+  const base=mmCmp==='prev'?4:0;
+  document.getElementById('mm-th').innerHTML=`<tr><th>Indicador</th>${MM.map((m,j)=>`<th class="num ${j===5?'cur':''}">${m}</th>`).join('')}<th class="num">Var. vs ${MM[base].toLowerCase()}</th><th class="num">Brecha vs líder</th><th>Tendencia</th></tr>`;
+  document.getElementById('mm-tb').innerHTML=IND.map(i=>{const gap=i.l[5]-i.y[5];const gb=gap*i.good>=0;return `<tr data-k="${i.k}" class="${i.k===mmSel?'sel':''}"><td class="ind">${i.n}${i.sub?`<small>${i.sub}</small>`:''}</td>${i.l.map((v,j)=>`<td class="num ${j===5?'cur':''}">${fv(i,v)}</td>`).join('')}<td class="num">${dv(i,i.l[base],i.l[5])}</td><td class="num" style="color:${gb?'var(--good)':'var(--tx2)'}">${gap>0?'+':''}${i.d?gap.toFixed(i.d).replace('.',','):fmt(Math.round(gap))}${i.u==='%'?' pp':i.u===' d'?' d':''}</td><td><canvas class="mm-spark" data-k="${i.k}" width="180" height="56"></canvas></td></tr>`}).join('');
+  document.querySelectorAll('.mm-spark').forEach(cv=>{const i=IND.find(x=>x.k===cv.dataset.k);const ctx=cv.getContext('2d');const v=i.l,mn=Math.min(...v),mx=Math.max(...v),r=mx-mn||1;const up=(v[5]-v[base])*i.good>=0;ctx.strokeStyle=up?'#16834e':'#c23a2c';ctx.lineWidth=3;ctx.lineJoin='round';ctx.beginPath();v.forEach((y,j)=>{const X=6+j*(168/5),Y=50-((y-mn)/r)*42;j?ctx.lineTo(X,Y):ctx.moveTo(X,Y)});ctx.stroke();const X=6+168,Y=50-((v[5]-mn)/r)*42;ctx.fillStyle=ctx.strokeStyle;ctx.beginPath();ctx.arc(X,Y,4.5,0,7);ctx.fill()});
+  const pick=['idx','rsp','ia','dir'];
+  kpis('mm-kpis',pick.map(k=>{const i=IND.find(x=>x.k===k);return {i:{idx:'heart',rsp:'reply',ia:'spark',dir:'pin'}[k],l:i.n,v:fv(i,i.l[5]),d:dv(i,i.l[base],i.l[5]),c:`vs ${MM[base].toLowerCase()} (${fv(i,i.l[base])})`,sp:i.l,neg:(i.l[5]-i.l[base])*i.good<0?1:0}}));
+  const i=IND.find(x=>x.k===mmSel);
+  document.getElementById('mm-ch-ttl').textContent=i.n;
+  mk('ch-mm',{type:'line',data:{labels:MM,datasets:[{label:'Grupo Lorenzo',data:i.l,borderColor:css('--c-lor'),backgroundColor:area('ch-mm',css('--c-lor')),fill:true,tension:.3,borderWidth:3,pointRadius:4,pointBackgroundColor:'#fff',pointBorderColor:css('--c-lor'),pointBorderWidth:2},{label:'Grupo Yacopini',data:i.y,borderColor:css('--c-yac'),borderDash:[6,4],tension:.3,pointRadius:3,pointBackgroundColor:css('--c-yac')}]},plugins:[actLines],options:{maintainAspectRatio:false,layout:{padding:{top:4}},interaction:{mode:'index',intersect:false},plugins:{tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${fv(i,c.raw)}`,afterBody:c=>{const a=ACT.find(e=>e.m===c[0].dataIndex);return a?`\nAcción ${ACT.indexOf(a)+1}: ${a.n}`:''}}}},scales:{y:{grid,border:bord,grace:'12%',ticks:{padding:8,callback:v=>i.d?v.toFixed(i.d).replace('.',','):fmt(v)}},x:{grid:nogrid,border:bord,offset:true,ticks:{padding:8,color:css('--tx2'),font:{weight:'600'}}}}}});
+  document.getElementById('f-ind').value=mmSel;
+}
+document.getElementById('f-ind').innerHTML=IND.map(i=>`<option value="${i.k}">${i.n}</option>`).join('');
+document.getElementById('f-ind').addEventListener('change',e=>{mmSel=e.target.value;renderMM()});
+document.getElementById('mm-tb').addEventListener('click',e=>{const tr=e.target.closest('tr');if(!tr)return;mmSel=tr.dataset.k;renderMM();document.getElementById('ch-mm').scrollIntoView({behavior:'smooth',block:'center'})});
+document.getElementById('f-cmp').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;document.querySelectorAll('#f-cmp button').forEach(x=>x.classList.toggle('on',x===b));mmCmp=b.dataset.c;renderMM()});
+document.getElementById('mm-tl').innerHTML=ACT.map((a,j)=>`<div class="ev" data-n="${j+1}"><div class="when">${a.when}</div><b>${a.n}</b><p>${a.p}</p></div>`).join('');
+document.getElementById('mm-imp').innerHTML=ACT.map((a,j)=>{const i=IND.find(x=>x.k===a.kpi);const bf=i.l[a.m-1],af=i.l[5];return `<div class="imp"><div class="h"><span class="n">${j+1}</span><b>${a.n}</b></div><div><span class="tag ${a.res[0]}">${a.res[1]}</span></div><div class="kpi-l">${i.n} · ${MM[a.m-1]} → Sep</div><div class="ba"><span class="bf">${fv(i,bf)}</span><span class="ar">→</span><span class="af">${fv(i,af)}</span>${dv(i,bf,af)}</div><p>${a.txt}</p></div>`}).join('')+`<div class="imp" style="background:var(--mb-soft);border-color:transparent;justify-content:center"><div class="h"><b style="color:var(--mb-dark)">¿Cómo se usa?</b></div><p>Cada acción del grupo se registra con su fecha y el indicador que busca mover. El tablero mide el antes y el después y lo compara con el líder, para decidir si conviene repetirla, ajustarla o abandonarla.</p></div>`;
+renderMM();
 
 /* ---------- SOCIAL ---------- */
 const days=Array.from({length:30},(_,i)=>{const d=new Date(2026,8,15+i);return d.toLocaleDateString('es-AR',{day:'numeric',month:'short'})});
