@@ -98,14 +98,14 @@ section.tab.on{display:block;animation:fade .45s ease}
 .hero-card:before{content:'';position:absolute;width:200px;height:200px;border-radius:50%;border:1px solid rgba(255,255,255,.08);right:-40px;bottom:-90px}
 .hero-card h3{color:#fff}
 .hero-card .cap{color:#9fbbd9}
-.gauge-wrap{display:flex;align-items:center;gap:24px;position:relative;z-index:1}
+.gauge-wrap{display:flex;align-items:center;gap:20px 24px;position:relative;z-index:1;flex-wrap:wrap}
 .gauge{position:relative;width:150px;height:150px;flex:none}
 .gauge svg{transform:rotate(-90deg)}
 .gauge .gv{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .gauge .gv b{font-size:42px;font-weight:800;color:#fff;letter-spacing:-1px;line-height:1}
 .gauge .gv span{font-size:11px;color:#9fbbd9;font-weight:600;margin-top:3px}
-.rank{flex:1;display:flex;flex-direction:column;gap:9px}
-.rank .r{display:grid;grid-template-columns:96px 1fr 28px;align-items:center;gap:10px;font-size:12px}
+.rank{flex:1 1 220px;min-width:0;display:flex;flex-direction:column;gap:9px}
+.rank .r{display:grid;grid-template-columns:minmax(78px,auto) minmax(50px,1fr) 24px;align-items:center;gap:10px;font-size:12px}
 .rank .r .bar{height:7px;border-radius:4px;background:rgba(255,255,255,.1);overflow:hidden}
 .rank .r .bar i{display:block;height:100%;border-radius:4px;transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
 .rank .r b{color:#fff;text-align:right;font-variant-numeric:tabular-nums}
